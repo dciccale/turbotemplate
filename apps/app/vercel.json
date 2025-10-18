@@ -1,0 +1,13 @@
+{
+  "buildCommand": "cd ../.. && npm install && npx turbo run build --filter=app",
+  "installCommand": "npm install",
+  "framework": "nextjs",
+  "outputDirectory": ".next",
+  "redirects": [
+    {
+      "source": "/",
+      "destination": "/app",
+      "permanent": false
+    }
+  ]
+}

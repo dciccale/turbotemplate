@@ -1,0 +1,38 @@
+{
+  "name": "@packages/backend",
+  "version": "1.0.0",
+  "description": "Convex backend",
+  "main": "convex/_generated/api.js",
+  "types": "convex/_generated/api.d.ts",
+  "exports": {
+    "./api": {
+      "types": "./convex/_generated/api.d.ts",
+      "default": "./convex/_generated/api.js"
+    },
+    "./dataModel": {
+      "types": "./convex/_generated/dataModel.d.ts"
+    },
+    "./convex": {
+      "types": "./convex/_generated/server.d.ts",
+      "default": "./convex/_generated/server.js"
+    }
+  },
+  "scripts": {
+    "dev": "convex dev",
+    "lint": "biome lint",
+    "build": "echo 'Build step skipped - Convex API files should be pre-generated'",
+    "deploy": "convex deploy"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@ai-sdk/openai": "^2.0.46",
+    "ai": "^5.0.62",
+    "convex": "^1.27.4",
+    "openai": "^6.2.0",
+    "zod": "^4.1.12"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.2.6"
+  }
+}
