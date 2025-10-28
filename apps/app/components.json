@@ -5,15 +5,15 @@
   "tsx": true,
   "tailwind": {
     "config": "",
-    "css": "styles/globals.css",
+    "css": "../../packages/ui/styles/globals.css",
     "baseColor": "neutral",
     "cssVariables": true
   },
   "iconLibrary": "lucide",
   "aliases": {
-    "components": "@turbotemplate/ui/components",
-    "hooks": "@turbotemplate/ui/hooks",
-    "lib": "@turbotemplate/ui/lib",
+    "components": "@/components",
+    "hooks": "@/hooks",
+    "lib": "@/lib",
     "utils": "@turbotemplate/ui/lib/utils",
     "ui": "@turbotemplate/ui/components"
   }

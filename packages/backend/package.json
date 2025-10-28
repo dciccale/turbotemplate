@@ -26,10 +26,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@ai-sdk/openai": "^2.0.46",
-    "ai": "^5.0.62",
-    "convex": "^1.27.4",
-    "openai": "^6.2.0",
+    "@ai-sdk/openai": "^2.0.53",
+    "ai": "^5.0.80",
+    "convex": "^1.28.0",
+    "openai": "^6.7.0",
     "zod": "^4.1.12"
   },
   "devDependencies": {

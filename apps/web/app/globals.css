@@ -1,8 +1,0 @@
-@import "tailwindcss";
-@import "@turbotemplate/ui/styles/globals.css";
-
-/* Tailwind v4 source globs for the web app and shared UI */
-@source "./**/*.{js,ts,jsx,tsx}";
-@source "../../../packages/ui/**/*.{js,ts,jsx,tsx}";
-
-/* Web-specific overrides can go below if needed */

@@ -7,17 +7,16 @@ import { Badge } from "@turbotemplate/ui/components/badge";
 import { Button } from "@turbotemplate/ui/components/button";
 import {
   Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
-  CardDescription,
-  CardContent,
-  CardFooter,
 } from "@turbotemplate/ui/components/card";
 import {
   BarChart3,
   MessageSquare,
   Rocket,
-  Shield,
   Sparkles,
   TrendingUp,
   Zap,
@@ -38,7 +37,10 @@ export default function Home() {
             turbotemplate — a full‑stack monorepo boilerplate
           </h1>
           <p className="mt-4 text-pretty text-base text-muted-foreground sm:text-lg">
-            A demo‑ready template for future projects and startup ideas. Preconfigured with Next.js 16, Tailwind CSS v4, shadcn/ui, Clerk authentication, and a Convex backend — all wired up in a Turborepo monorepo with shared UI and backend packages.
+            A demo‑ready template for future projects and startup ideas.
+            Preconfigured with Next.js 16, Tailwind CSS v4, shadcn/ui, Clerk
+            authentication, and a Convex backend — all wired up in a Turborepo
+            monorepo with shared UI and backend packages.
           </p>
           <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
             <Button asChild className="w-full sm:w-auto">
@@ -64,7 +66,9 @@ export default function Home() {
             <Sparkles />
             <AlertTitle>Template, not a product</AlertTitle>
             <AlertDescription>
-              turbotemplate is a starter kit to speed up new ideas. It ships with a working app shell, auth, data, and example pages so you can focus on building.
+              turbotemplate is a starter kit to speed up new ideas. It ships
+              with a working app shell, auth, data, and example pages so you can
+              focus on building.
             </AlertDescription>
           </Alert>
         </div>
@@ -87,7 +91,8 @@ export default function Home() {
             </CardHeader>
             <CardContent>
               <CardDescription>
-                Turborepo workspace with a shared UI package and a backend package powered by Convex.
+                Turborepo workspace with a shared UI package and a backend
+                package powered by Convex.
               </CardDescription>
             </CardContent>
           </Card>
@@ -102,7 +107,8 @@ export default function Home() {
             </CardHeader>
             <CardContent>
               <CardDescription>
-                Next.js 16, Tailwind CSS v4, and shadcn/ui preconfigured with sensible defaults.
+                Next.js 16, Tailwind CSS v4, and shadcn/ui preconfigured with
+                sensible defaults.
               </CardDescription>
             </CardContent>
           </Card>
@@ -117,7 +123,8 @@ export default function Home() {
             </CardHeader>
             <CardContent>
               <CardDescription>
-                Clerk authentication and Convex backend scaffolding already wired together.
+                Clerk authentication and Convex backend scaffolding already
+                wired together.
               </CardDescription>
             </CardContent>
           </Card>
@@ -215,7 +222,10 @@ export default function Home() {
                 q: "What’s included?",
                 a: "Next.js 16, Tailwind CSS v4, shadcn/ui, Clerk authentication, Convex backend, a shared UI package, a backend package, and example pages (landing, pricing, FAQ).",
               },
-              { q: "Is this production ready?", a: "It’s a starter template with mock content intended for demos and rapid prototyping. Review and harden before production." },
+              {
+                q: "Is this production ready?",
+                a: "It’s a starter template with mock content intended for demos and rapid prototyping. Review and harden before production.",
+              },
               {
                 q: "Can I swap providers?",
                 a: "Yes. You can replace Clerk or Convex with your preferred auth/data stack. The structure aims to make swaps straightforward.",

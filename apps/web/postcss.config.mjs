@@ -1,1 +1,1 @@
-export { default } from "../../packages/ui/postcss.config.mjs";
+export { default } from "@turbotemplate/ui/postcss.config";

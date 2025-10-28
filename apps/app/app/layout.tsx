@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import "./globals.css";
+import "@turbotemplate/ui/globals.css";
 import { esES } from "@clerk/localizations";
 import { ClerkLoaded, ClerkProvider } from "@clerk/nextjs";
 import { shadcn } from "@clerk/themes";

@@ -33,7 +33,9 @@ export default function FaqPage() {
 
   return (
     <main className="mx-auto w-full max-w-3xl px-4 sm:px-6 lg:px-8 py-16">
-      <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl text-center">Frequently asked questions</h1>
+      <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl text-center">
+        Frequently asked questions
+      </h1>
       <div className="mt-10 grid gap-6">
         {faqs.map((f) => (
           <div key={f.q} className="rounded-lg border p-6">
@@ -45,4 +47,3 @@ export default function FaqPage() {
     </main>
   );
 }
-

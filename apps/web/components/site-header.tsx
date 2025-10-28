@@ -1,9 +1,9 @@
 "use client";
 
+import { Button } from "@turbotemplate/ui/components/button";
 import Link from "next/link";
 import { useState } from "react";
 import { ModeToggle } from "@/components/mode-toggle";
-import { Button } from "@turbotemplate/ui/components/button";
 
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
