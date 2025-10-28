@@ -1,25 +1,20 @@
-"use client";
-
-import Image from "next/image";
-import Link from "next/link";
+import { Separator } from "@turbotemplate/ui/components/separator";
+import { SidebarTrigger } from "@turbotemplate/ui/components/sidebar";
 import { ModeToggle } from "./mode-toggle";
 
 export function SiteHeader() {
   return (
-    <header className="sticky top-0 z-40 w-full border-b bg-background/80 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="mx-auto max-w-7xl px-4 h-14 flex items-center gap-3">
-        <Link href="/" className="flex items-center gap-2 text-foreground">
-          <Image
-            src="/turbotemplate.svg"
-            alt="turbotemplate"
-            width={20}
-            height={20}
-          />
-          <span className="font-semibold">turbotemplate</span>
-        </Link>
-        <nav className="ml-auto flex items-center gap-3 text-sm">
+    <header className="flex h-(--header-height) shrink-0 items-center gap-2 border-b transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-(--header-height)">
+      <div className="flex w-full items-center gap-1 px-4 lg:gap-2 lg:px-6">
+        <SidebarTrigger className="-ml-1" />
+        <Separator
+          orientation="vertical"
+          className="mx-2 data-[orientation=vertical]:h-4"
+        />
+        <h1 className="text-base font-medium">Documents</h1>
+        <div className="ml-auto flex items-center gap-2">
           <ModeToggle />
-        </nav>
+        </div>
       </div>
     </header>
   );

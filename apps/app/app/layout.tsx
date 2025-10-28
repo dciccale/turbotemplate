@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "@turbotemplate/ui/globals.css";
-import { esES } from "@clerk/localizations";
+import { enUS } from "@clerk/localizations";
 import { ClerkLoaded, ClerkProvider } from "@clerk/nextjs";
 import { shadcn } from "@clerk/themes";
 import { Geist, Geist_Mono } from "next/font/google";
@@ -37,7 +37,7 @@ export default function RootLayout({
       signUpUrl="/app/sign-up"
       signInFallbackRedirectUrl="/app"
       signUpFallbackRedirectUrl="/app"
-      localization={esES}
+      localization={enUS}
       appearance={{
         baseTheme: shadcn,
       }}
