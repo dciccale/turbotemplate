@@ -1,6 +1,7 @@
 {
-  "name": "@packages/backend",
+  "name": "@turbotemplate/backend",
   "version": "1.0.0",
+  "private": true,
   "description": "Convex backend",
   "main": "convex/_generated/api.js",
   "types": "convex/_generated/api.d.ts",
