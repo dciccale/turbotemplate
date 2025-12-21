@@ -1,5 +1,5 @@
-import Link from "next/link";
 import { Button } from "@turbotemplate/ui/components/button";
+import Link from "next/link";
 
 export const metadata = {
   title: "Pricing",

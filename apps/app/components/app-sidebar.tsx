@@ -5,9 +5,6 @@ import {
   SidebarContent,
   SidebarFooter,
   SidebarHeader,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
 } from "@turbotemplate/ui/components/sidebar";
 import {
   BarChart,
@@ -26,7 +23,7 @@ import {
   Users,
 } from "lucide-react";
 import Link from "next/link";
-import * as React from "react";
+import type * as React from "react";
 import { NavDocuments } from "@/components/nav-documents";
 import { NavMain } from "@/components/nav-main";
 import { NavSecondary } from "@/components/nav-secondary";

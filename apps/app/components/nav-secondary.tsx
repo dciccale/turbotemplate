@@ -7,8 +7,8 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@turbotemplate/ui/components/sidebar";
-import { type LucideIcon } from "lucide-react";
-import * as React from "react";
+import type { LucideIcon } from "lucide-react";
+import type * as React from "react";
 
 export function NavSecondary({
   items,

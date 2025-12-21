@@ -8,8 +8,8 @@
     "check-types": "turbo run check-types"
   },
   "devDependencies": {
-    "turbo": "^2.5.8",
-    "typescript": "5.9.2"
+    "turbo": "^2.7.1",
+    "typescript": "5.9.3"
   },
   "engines": {
     "node": ">=18"
