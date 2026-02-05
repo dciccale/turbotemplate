@@ -3,8 +3,8 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   // Following Vercel Multi Zones guide - basePath matches the rewrite path
   basePath: "/app",
+  transpilePackages: ["@turbotemplate/backend", "@turbotemplate/ui"],
   devIndicators: false,
-  transpilePackages: ["@turbotemplate/ui"],
   images: {
     remotePatterns: [
       {
