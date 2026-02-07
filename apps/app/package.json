@@ -3,14 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev -H 127.0.0.1 -p 3001",
+    "dev": "next dev -p 3001",
     "build": "next build",
     "start": "next start",
     "lint": "biome check",
     "format": "biome format --write"
   },
   "dependencies": {
-    "@ai-sdk/react": "^2.0.129",
     "@clerk/localizations": "^3.35.3",
     "@clerk/nextjs": "^6.37.3",
     "@clerk/themes": "^2.4.51",
@@ -19,8 +18,8 @@
     "@dnd-kit/sortable": "^10.0.0",
     "@dnd-kit/utilities": "^3.2.2",
     "@tanstack/react-table": "^8.21.3",
-    "@turbotemplate/ui": "0.1.0",
     "@turbotemplate/backend": "1.0.0",
+    "@turbotemplate/ui": "0.1.0",
     "convex": "^1.31.7",
     "lucide-react": "^0.563.0",
     "next": "16.1.6",

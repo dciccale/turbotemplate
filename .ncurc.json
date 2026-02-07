@@ -1,0 +1,3 @@
+{
+  "reject": ["recharts", "ai", "@ai-sdk/openai"]
+}
