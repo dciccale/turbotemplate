@@ -17,7 +17,11 @@
     "jsx": "react-jsx",
     "baseUrl": ".",
     "paths": {
-      "@turbotemplate/ui/*": ["./*"]
+      "@/*": ["./src/*"],
+      "@turbotemplate/ui/ui/*": ["./src/components/ui/*"],
+      "@turbotemplate/ui/lib/*": ["./src/lib/*"],
+      "@turbotemplate/ui/components/*": ["./src/components/*"],
+      "@turbotemplate/ui/hooks/*": ["./src/hooks/*"]
     }
   },
   "include": ["."],
