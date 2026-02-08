@@ -163,7 +163,7 @@ export default function Home() {
             </CardContent>
             <CardFooter>
               <Button asChild variant="outline" className="w-full">
-                <Link href="/app">Open Demo</Link>
+                <a href="/app">Open Demo</a>
               </Button>
             </CardFooter>
           </Card>
@@ -196,7 +196,7 @@ export default function Home() {
             </CardContent>
             <CardFooter>
               <Button asChild className="w-full">
-                <Link href="/app">Open Demo</Link>
+                <a href="/app">Open Demo</a>
               </Button>
             </CardFooter>
           </Card>
