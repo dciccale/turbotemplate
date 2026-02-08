@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import "@turbotemplate/ui/globals.css";
+import { ThemeProvider } from "@turbotemplate/ui/providers/theme-provider";
 import { Geist, Geist_Mono } from "next/font/google";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
-import { ThemeProvider } from "@/components/theme-provider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",

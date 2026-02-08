@@ -1,9 +1,9 @@
 "use client";
 
+import { ThemeToggle } from "@turbotemplate/ui/components/theme-toggle";
 import { Button } from "@turbotemplate/ui/components/ui/button";
 import Link from "next/link";
 import { useState } from "react";
-import { ModeToggle } from "@/components/mode-toggle";
 
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
@@ -44,7 +44,7 @@ export function SiteHeader() {
           </nav>
 
           <div className="flex items-center gap-2">
-            <ModeToggle />
+            <ThemeToggle />
             <Button asChild className="hidden md:inline-flex">
               <a href="/app">Open Demo</a>
             </Button>

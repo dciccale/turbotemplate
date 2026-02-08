@@ -4,8 +4,8 @@ import { enUS } from "@clerk/localizations";
 import { ClerkLoaded, ClerkProvider } from "@clerk/nextjs";
 import { shadcn } from "@clerk/themes";
 import { TooltipProvider } from "@turbotemplate/ui/components/ui/tooltip";
+import { ThemeProvider } from "@turbotemplate/ui/providers/theme-provider";
 import { ConvexClientProvider } from "@/components/ConvexClientProvider";
-import { ThemeProvider } from "@/components/theme-provider";
 
 export const metadata: Metadata = {
   title: "Create Next App",
