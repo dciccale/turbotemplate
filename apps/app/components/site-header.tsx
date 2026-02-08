@@ -1,5 +1,5 @@
-import { Separator } from "@turbotemplate/ui/components/separator";
-import { SidebarTrigger } from "@turbotemplate/ui/components/sidebar";
+import { Separator } from "@turbotemplate/ui/components/ui/separator";
+import { SidebarTrigger } from "@turbotemplate/ui/components/ui/sidebar";
 import { ModeToggle } from "./mode-toggle";
 
 export function SiteHeader() {

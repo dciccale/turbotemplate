@@ -2,9 +2,9 @@ import {
   Alert,
   AlertDescription,
   AlertTitle,
-} from "@turbotemplate/ui/components/alert";
-import { Badge } from "@turbotemplate/ui/components/badge";
-import { Button } from "@turbotemplate/ui/components/button";
+} from "@turbotemplate/ui/components/ui/alert";
+import { Badge } from "@turbotemplate/ui/components/ui/badge";
+import { Button } from "@turbotemplate/ui/components/ui/button";
 import {
   Card,
   CardContent,
@@ -12,7 +12,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@turbotemplate/ui/components/card";
+} from "@turbotemplate/ui/components/ui/card";
 import {
   BarChart3,
   MessageSquare,
@@ -43,15 +43,12 @@ export default function Home() {
             monorepo with shared UI and backend packages.
           </p>
           <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <Button asChild className="w-full sm:w-auto">
-              <Link href="/app">Open Demo</Link>
+            <Button asChild>
+              <a href="/app">Open Demo</a>
             </Button>
-            <Link
-              href="#features"
-              className="w-full sm:w-auto inline-flex items-center justify-center rounded-md border border-input px-4 py-2 text-sm hover:bg-accent hover:text-accent-foreground"
-            >
-              See what’s included
-            </Link>
+            <Button variant="link">
+              <Link href="#features">See what’s included</Link>
+            </Button>
           </div>
           <p className="mt-3 text-xs text-muted-foreground">
             This site uses mock copy and placeholder content for demo purposes.

@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@turbotemplate/ui/components/button";
+import { Button } from "@turbotemplate/ui/components/ui/button";
 import { Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
 

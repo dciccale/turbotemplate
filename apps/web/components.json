@@ -15,6 +15,6 @@
     "hooks": "@/hooks",
     "lib": "@/lib",
     "utils": "@turbotemplate/ui/lib/utils",
-    "ui": "@turbotemplate/ui/components"
+    "ui": "@turbotemplate/ui/components/ui"
   }
 }

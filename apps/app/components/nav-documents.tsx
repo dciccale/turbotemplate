@@ -6,7 +6,7 @@ import {
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@turbotemplate/ui/components/dropdown-menu";
+} from "@turbotemplate/ui/components/ui/dropdown-menu";
 import {
   SidebarGroup,
   SidebarGroupLabel,
@@ -15,7 +15,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   useSidebar,
-} from "@turbotemplate/ui/components/sidebar";
+} from "@turbotemplate/ui/components/ui/sidebar";
 import {
   Folder,
   type LucideIcon,

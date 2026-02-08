@@ -34,15 +34,15 @@ import {
   useReactTable,
   type VisibilityState,
 } from "@tanstack/react-table";
-import { Badge } from "@turbotemplate/ui/components/badge";
-import { Button } from "@turbotemplate/ui/components/button";
+import { Badge } from "@turbotemplate/ui/components/ui/badge";
+import { Button } from "@turbotemplate/ui/components/ui/button";
 import {
   type ChartConfig,
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
-} from "@turbotemplate/ui/components/chart";
-import { Checkbox } from "@turbotemplate/ui/components/checkbox";
+} from "@turbotemplate/ui/components/ui/chart";
+import { Checkbox } from "@turbotemplate/ui/components/ui/checkbox";
 import {
   Drawer,
   DrawerClose,
@@ -52,7 +52,7 @@ import {
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
-} from "@turbotemplate/ui/components/drawer";
+} from "@turbotemplate/ui/components/ui/drawer";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -60,17 +60,17 @@ import {
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@turbotemplate/ui/components/dropdown-menu";
-import { Input } from "@turbotemplate/ui/components/input";
-import { Label } from "@turbotemplate/ui/components/label";
+} from "@turbotemplate/ui/components/ui/dropdown-menu";
+import { Input } from "@turbotemplate/ui/components/ui/input";
+import { Label } from "@turbotemplate/ui/components/ui/label";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@turbotemplate/ui/components/select";
-import { Separator } from "@turbotemplate/ui/components/separator";
+} from "@turbotemplate/ui/components/ui/select";
+import { Separator } from "@turbotemplate/ui/components/ui/separator";
 import {
   Table,
   TableBody,
@@ -78,13 +78,13 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@turbotemplate/ui/components/table";
+} from "@turbotemplate/ui/components/ui/table";
 import {
   Tabs,
   TabsContent,
   TabsList,
   TabsTrigger,
-} from "@turbotemplate/ui/components/tabs";
+} from "@turbotemplate/ui/components/ui/tabs";
 import {
   ChevronDown,
   ChevronLeft,

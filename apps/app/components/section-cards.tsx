@@ -1,4 +1,4 @@
-import { Badge } from "@turbotemplate/ui/components/badge";
+import { Badge } from "@turbotemplate/ui/components/ui/badge";
 import {
   Card,
   CardAction,
@@ -6,7 +6,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@turbotemplate/ui/components/card";
+} from "@turbotemplate/ui/components/ui/card";
 import { TrendingDown, TrendingUp } from "lucide-react";
 
 export function SectionCards() {

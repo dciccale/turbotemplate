@@ -5,7 +5,7 @@ import {
   Avatar,
   AvatarFallback,
   AvatarImage,
-} from "@turbotemplate/ui/components/avatar";
+} from "@turbotemplate/ui/components/ui/avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -14,13 +14,13 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@turbotemplate/ui/components/dropdown-menu";
+} from "@turbotemplate/ui/components/ui/dropdown-menu";
 import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
   useSidebar,
-} from "@turbotemplate/ui/components/sidebar";
+} from "@turbotemplate/ui/components/ui/sidebar";
 import { cn } from "@turbotemplate/ui/lib/utils";
 import {
   Bell,

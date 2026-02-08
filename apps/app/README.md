@@ -21,5 +21,5 @@ npm run format   # biome format --write
 Transpiles `@turbotemplate/ui`. Example:
 
 ```ts
-import { Button } from "@turbotemplate/ui/components/button";
+import { Button } from "@turbotemplate/ui/components/ui/button";
 ```

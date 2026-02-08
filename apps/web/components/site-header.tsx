@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@turbotemplate/ui/components/button";
+import { Button } from "@turbotemplate/ui/components/ui/button";
 import Link from "next/link";
 import { useState } from "react";
 import { ModeToggle } from "@/components/mode-toggle";

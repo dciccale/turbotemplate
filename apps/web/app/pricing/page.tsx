@@ -1,4 +1,4 @@
-import { Button } from "@turbotemplate/ui/components/button";
+import { Button } from "@turbotemplate/ui/components/ui/button";
 import Link from "next/link";
 
 export const metadata = {

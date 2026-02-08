@@ -1,7 +1,7 @@
 import {
   SidebarInset,
   SidebarProvider,
-} from "@turbotemplate/ui/components/sidebar";
+} from "@turbotemplate/ui/components/ui/sidebar";
 import { AppSidebar } from "@/components/app-sidebar";
 import { ChartAreaInteractive } from "@/components/chart-area-interactive";
 import { DataTable } from "@/components/data-table";

@@ -3,6 +3,7 @@ import "@turbotemplate/ui/globals.css";
 import { enUS } from "@clerk/localizations";
 import { ClerkLoaded, ClerkProvider } from "@clerk/nextjs";
 import { shadcn } from "@clerk/themes";
+import { TooltipProvider } from "@turbotemplate/ui/components/ui/tooltip";
 import { ConvexClientProvider } from "@/components/ConvexClientProvider";
 import { ThemeProvider } from "@/components/theme-provider";
 
@@ -41,7 +42,9 @@ export default function RootLayout({
             disableTransitionOnChange
           >
             <ClerkLoaded>
-              <ConvexClientProvider>{children}</ConvexClientProvider>
+              <TooltipProvider>
+                <ConvexClientProvider>{children}</ConvexClientProvider>
+              </TooltipProvider>
             </ClerkLoaded>
           </ThemeProvider>
         </body>

@@ -35,5 +35,5 @@ Routes:
 Transpiles `@turbotemplate/ui`. Example:
 
 ```ts
-import { Button } from "@turbotemplate/ui/components/button";
+import { Button } from "@turbotemplate/ui/components/ui/button";
 ```

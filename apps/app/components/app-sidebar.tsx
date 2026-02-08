@@ -5,7 +5,7 @@ import {
   SidebarContent,
   SidebarFooter,
   SidebarHeader,
-} from "@turbotemplate/ui/components/sidebar";
+} from "@turbotemplate/ui/components/ui/sidebar";
 import {
   BarChart,
   Bot,

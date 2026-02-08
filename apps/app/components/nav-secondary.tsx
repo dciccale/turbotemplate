@@ -6,7 +6,7 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from "@turbotemplate/ui/components/sidebar";
+} from "@turbotemplate/ui/components/ui/sidebar";
 import type { LucideIcon } from "lucide-react";
 import type * as React from "react";
 

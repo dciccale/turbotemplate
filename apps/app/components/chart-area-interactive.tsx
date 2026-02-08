@@ -7,24 +7,24 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@turbotemplate/ui/components/card";
+} from "@turbotemplate/ui/components/ui/card";
 import {
   type ChartConfig,
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
-} from "@turbotemplate/ui/components/chart";
+} from "@turbotemplate/ui/components/ui/chart";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@turbotemplate/ui/components/select";
+} from "@turbotemplate/ui/components/ui/select";
 import {
   ToggleGroup,
   ToggleGroupItem,
-} from "@turbotemplate/ui/components/toggle-group";
+} from "@turbotemplate/ui/components/ui/toggle-group";
 import * as React from "react";
 import { Area, AreaChart, CartesianGrid, XAxis } from "recharts";
 import { useIsMobile } from "@/hooks/use-mobile";
