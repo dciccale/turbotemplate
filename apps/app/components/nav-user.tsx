@@ -1,6 +1,7 @@
 "use client";
 
 import { useClerk, useUser } from "@clerk/nextjs";
+import { AppIcon } from "@turbotemplate/ui/components/app-icon";
 import {
   Avatar,
   AvatarFallback,
@@ -29,6 +30,8 @@ import {
   MoreVertical,
   UserCircle,
 } from "lucide-react";
+
+const marketingUrl = process.env.NEXT_PUBLIC_MARKETING_URL || "/";
 
 function ProfileAvatar({
   user,
@@ -87,6 +90,12 @@ export function NavUser() {
               <DropdownMenuItem onClick={() => openUserProfile()}>
                 <UserCircle />
                 Account
+              </DropdownMenuItem>
+              <DropdownMenuItem>
+                <a href={marketingUrl} className="flex items-center gap-1.5">
+                  <AppIcon />
+                  Web
+                </a>
               </DropdownMenuItem>
               <DropdownMenuItem>
                 <CreditCard />

@@ -1,9 +1,10 @@
 "use client";
 
+import { AppLogo } from "@turbotemplate/ui/components/app-logo";
 import { ThemeToggle } from "@turbotemplate/ui/components/theme-toggle";
-import { Button } from "@turbotemplate/ui/components/ui/button";
 import Link from "next/link";
 import { useState } from "react";
+import { WebNavUser } from "./web-nav-user";
 
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
@@ -13,18 +14,8 @@ export function SiteHeader() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
           <div className="flex items-center gap-2">
-            <Link href="/" className="flex items-center gap-2 text-foreground">
-              {/* Chat bubble icon */}
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                className="size-6"
-                aria-hidden="true"
-              >
-                <path d="M20 2H4a2 2 0 0 0-2 2v18l4-4h14a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2Z" />
-              </svg>
-              <span className="font-semibold">turbotemplate</span>
+            <Link href="/" className="flex items-center text-foreground">
+              <AppLogo />
             </Link>
           </div>
 
@@ -45,9 +36,7 @@ export function SiteHeader() {
 
           <div className="flex items-center gap-2">
             <ThemeToggle />
-            <Button asChild className="hidden md:inline-flex">
-              <a href="/app">Open Demo</a>
-            </Button>
+            <WebNavUser />
 
             {/* mobile menu button */}
             <button

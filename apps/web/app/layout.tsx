@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
 import "@turbotemplate/ui/globals.css";
+import { enUS } from "@clerk/localizations";
+import { ClerkProvider } from "@clerk/nextjs";
+import { shadcn } from "@clerk/themes";
 import { ThemeProvider } from "@turbotemplate/ui/providers/theme-provider";
 import { Geist, Geist_Mono } from "next/font/google";
 import { SiteFooter } from "@/components/site-footer";
@@ -31,7 +34,7 @@ export const metadata: Metadata = {
     description:
       "Monorepo template for Next.js 16, Tailwind 4, shadcn/ui, Clerk, and Convex. Mock site for demo purposes.",
     type: "website",
-    url: "https://turbotemplate.com/",
+    url: "https://turbotemplate-web.vercel.app",
     siteName: "turbotemplate",
   },
   twitter: {
@@ -45,28 +48,43 @@ export const metadata: Metadata = {
   },
 };
 
+const marketingUrl = process.env.NEXT_PUBLIC_MARKETING_URL || "/";
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background text-foreground`}
-      >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-          storageKey="turbotemplate-theme"
+    <ClerkProvider
+      publishableKey={process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}
+      afterSignOutUrl={marketingUrl}
+      signInUrl="/app/sign-in"
+      signUpUrl="/app/sign-up"
+      signInFallbackRedirectUrl="/app"
+      signUpFallbackRedirectUrl="/app"
+      localization={enUS}
+      appearance={{
+        baseTheme: shadcn,
+      }}
+    >
+      <html lang="en" suppressHydrationWarning>
+        <body
+          className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background text-foreground`}
         >
-          <SiteHeader />
-          {children}
-          <SiteFooter />
-        </ThemeProvider>
-      </body>
-    </html>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+            storageKey="turbotemplate-theme"
+          >
+            <SiteHeader />
+            {children}
+            <SiteFooter />
+          </ThemeProvider>
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }

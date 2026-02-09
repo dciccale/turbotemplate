@@ -13,7 +13,7 @@
   "biome.requireConfiguration": true,
   "prettier.enable": false,
   "editor.codeActionsOnSave": {
-    "source.organizeImports.biome": "explicit"
+    "source.organizeImports.biome": "always"
   },
   "[typescriptreact]": {
     "editor.defaultFormatter": "biomejs.biome"

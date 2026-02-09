@@ -1,5 +1,6 @@
 "use client";
 
+import { AppLogo } from "@turbotemplate/ui/components/app-logo";
 import {
   Sidebar,
   SidebarContent,
@@ -28,37 +29,6 @@ import { NavDocuments } from "@/components/nav-documents";
 import { NavMain } from "@/components/nav-main";
 import { NavSecondary } from "@/components/nav-secondary";
 import { NavUser } from "@/components/nav-user";
-
-// Logo component with theme support
-const Logo = ({ className = "" }: { className?: string }) => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 330 80"
-    role="img"
-    aria-label="turbotemplate logo"
-    className={className}
-  >
-    <defs>
-      <style>
-        {`.wordmark { font: 700 36px/1 "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif; letter-spacing: 0.5px; }`}
-      </style>
-    </defs>
-    <g transform="translate(10,16)">
-      <circle
-        cx="24"
-        cy="24"
-        r="22"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="3"
-      />
-      <path d="M26 8 L12 30 h10 l-4 18 16-22 h-10 l6-18z" fill="currentColor" />
-    </g>
-    <text x="70" y="52" className="wordmark" fill="currentColor">
-      turbotemplate
-    </text>
-  </svg>
-);
 
 const data = {
   user: {
@@ -181,8 +151,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar collapsible="offcanvas" {...props}>
       <SidebarHeader>
-        <Link href="/" className="flex items-center w-full">
-          <Logo className="h-10 w-full text-foreground" />
+        <Link href="/" className="flex w-full items-center justify-center">
+          <AppLogo />
         </Link>
       </SidebarHeader>
       <SidebarContent>
