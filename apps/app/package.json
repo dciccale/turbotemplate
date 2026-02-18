@@ -11,9 +11,9 @@
     "format": "biome check --write"
   },
   "dependencies": {
-    "@clerk/localizations": "^3.35.4",
-    "@clerk/nextjs": "^6.37.4",
-    "@clerk/themes": "^2.4.52",
+    "@clerk/localizations": "^3.35.5",
+    "@clerk/nextjs": "^6.37.5",
+    "@clerk/themes": "^2.4.53",
     "@dnd-kit/core": "^6.3.1",
     "@dnd-kit/modifiers": "^9.0.0",
     "@dnd-kit/sortable": "^10.0.0",
@@ -22,7 +22,7 @@
     "@turbotemplate/backend": "1.0.0",
     "@turbotemplate/ui": "0.1.0",
     "convex": "^1.31.7",
-    "lucide-react": "^0.564.0",
+    "lucide-react": "^0.574.0",
     "next": "16.1.6",
     "next-themes": "^0.4.6",
     "react": "19.2.4",
@@ -34,7 +34,7 @@
     "zustand": "^5.0.11"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.4.0",
+    "@biomejs/biome": "2.4.2",
     "@types/node": "^25.2.3",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
