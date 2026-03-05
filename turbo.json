@@ -6,7 +6,14 @@
       "dependsOn": ["^build"],
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
       "outputs": [".next/**", "!.next/cache/**"],
-      "env": ["APP_ORIGIN", "CLERK_SECRET_KEY"]
+      "env": [
+        "APP_ORIGIN",
+        "CLERK_SECRET_KEY",
+        "RESEND_API_KEY",
+        "RESEND_FROM_EMAIL",
+        "RESEND_WEBHOOK_SECRET",
+        "RESEND_TEST_MODE"
+      ]
     },
     "lint": {
       "dependsOn": ["^lint"]
@@ -24,7 +31,11 @@
         "CLERK_JWT_ISSUER_DOMAIN",
         "NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY",
         "NEXT_PUBLIC_CONVEX_URL",
-        "NEXT_PUBLIC_MARKETING_URL"
+        "NEXT_PUBLIC_MARKETING_URL",
+        "RESEND_API_KEY",
+        "RESEND_FROM_EMAIL",
+        "RESEND_WEBHOOK_SECRET",
+        "RESEND_TEST_MODE"
       ]
     }
   }
