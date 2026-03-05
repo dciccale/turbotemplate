@@ -1,6 +1,6 @@
+import { ThemeToggle } from "@turbotemplate/ui/components/theme-toggle";
 import { Separator } from "@turbotemplate/ui/components/ui/separator";
 import { SidebarTrigger } from "@turbotemplate/ui/components/ui/sidebar";
-import { ModeToggle } from "./mode-toggle";
 
 export function SiteHeader() {
   return (
@@ -13,7 +13,7 @@ export function SiteHeader() {
         />
         <h1 className="text-base font-medium">Documents</h1>
         <div className="ml-auto flex items-center gap-2">
-          <ModeToggle />
+          <ThemeToggle />
         </div>
       </div>
     </header>
