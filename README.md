@@ -21,12 +21,12 @@ All code is TypeScript.
 ## Requirements
 
 - Node.js ≥ 18
-- NPM (repo is configured with `packageManager: npm@11.5.1`)
+- Bun (repo is configured with `packageManager: bun@1.3.9`)
 
 ## Install
 
 ```sh
-npm install
+bun install
 ```
 
 ## Develop
@@ -34,14 +34,14 @@ npm install
 Run both apps with Turborepo:
 
 ```sh
-npm run dev
+bun run dev
 ```
 
 To run a single app:
 
 ```sh
-npx turbo run dev --filter=web
-npx turbo run dev --filter=app
+bunx turbo run dev --filter=web
+bunx turbo run dev --filter=app
 ```
 
 Local defaults (when both are running):
@@ -61,14 +61,14 @@ APP_ORIGIN=http://localhost:3001
 Build everything:
 
 ```sh
-npm run build
+bun run build
 ```
 
 Build a single target:
 
 ```sh
-npx turbo run build --filter=web
-npx turbo run build --filter=app
+bunx turbo run build --filter=web
+bunx turbo run build --filter=app
 ```
 
 ## Linting and formatting (Biome)
@@ -78,15 +78,15 @@ We use Biome instead of ESLint/Prettier inside apps.
 From the repo root (runs across workspaces via Turborepo):
 
 ```sh
-npm run lint            # executes "biome check" in each app
-npx turbo run format    # executes "biome format --write" in each app
+bun run lint            # executes "biome check" in each app
+bun run format          # executes "biome format --write" in each app
 ```
 
 From an individual app directory:
 
 ```sh
-npm run lint
-npm run format
+bun run lint
+bun run format
 ```
 
 Note: The root still includes Prettier primarily for miscellaneous files. Prefer Biome for TypeScript/JavaScript formatting in app workspaces.
@@ -94,7 +94,7 @@ Note: The root still includes Prettier primarily for miscellaneous files. Prefer
 ## Type checking
 
 ```sh
-npm run check-types
+bun run check-types
 ```
 
 ## Using the shared UI package
