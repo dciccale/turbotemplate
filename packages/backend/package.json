@@ -28,15 +28,15 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@convex-dev/resend": "^0.1.12",
+    "@convex-dev/resend": "^0.2.3",
     "@turbotemplate/emails": "0.0.0",
     "@ai-sdk/openai": "^2.0.91",
-    "@types/node": "^25.3.0",
+    "@types/node": "^25.3.5",
     "ai": "^5.0.135",
     "convex": "^1.32.0",
     "zod": "^4.3.6"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.4.4"
+    "@biomejs/biome": "2.4.6"
   }
 }
