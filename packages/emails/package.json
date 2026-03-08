@@ -3,8 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "dev": "email dev -p 3007",
-    "export": "email export",
+    "dev": "bunx react-email@5.2.9 dev -p 3007",
+    "export": "bunx react-email@5.2.9 export",
     "lint": "biome check",
     "format": "biome check --write"
   },
@@ -20,10 +20,8 @@
   },
   "devDependencies": {
     "@biomejs/biome": "2.4.6",
-    "@react-email/preview-server": "5.2.9",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
-    "react-email": "5.2.9",
     "typescript": "^5.9.3"
   }
 }
