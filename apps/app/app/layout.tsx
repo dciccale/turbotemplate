@@ -5,6 +5,7 @@ import { ClerkLoaded, ClerkProvider } from "@clerk/nextjs";
 import { shadcn } from "@clerk/themes";
 import { TooltipProvider } from "@turbotemplate/ui/components/ui/tooltip";
 import { ThemeProvider } from "@turbotemplate/ui/providers/theme-provider";
+import { Toaster } from "sonner";
 import { ConvexClientProvider } from "@/components/ConvexClientProvider";
 
 export const metadata: Metadata = {
@@ -43,7 +44,10 @@ export default function RootLayout({
           >
             <ClerkLoaded>
               <TooltipProvider>
-                <ConvexClientProvider>{children}</ConvexClientProvider>
+                <ConvexClientProvider>
+                  {children}
+                  <Toaster />
+                </ConvexClientProvider>
               </TooltipProvider>
             </ClerkLoaded>
           </ThemeProvider>

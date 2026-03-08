@@ -98,8 +98,13 @@ export function NavUser() {
                 </a>
               </DropdownMenuItem>
               <DropdownMenuItem>
-                <CreditCard />
-                Billing
+                <a
+                  href="/app/billing"
+                  className="flex w-full items-center gap-1.5"
+                >
+                  <CreditCard />
+                  Billing
+                </a>
               </DropdownMenuItem>
               <DropdownMenuItem>
                 <Bell />

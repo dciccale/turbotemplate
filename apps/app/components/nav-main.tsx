@@ -9,6 +9,7 @@ import {
   SidebarMenuItem,
 } from "@turbotemplate/ui/components/ui/sidebar";
 import { CirclePlus, type LucideIcon, Mail } from "lucide-react";
+import { usePathname } from "next/navigation";
 
 export function NavMain({
   items,
@@ -19,6 +20,14 @@ export function NavMain({
     icon?: LucideIcon;
   }[];
 }) {
+  const pathname = usePathname();
+  const normalizedPathname =
+    pathname === "/app"
+      ? "/"
+      : pathname.startsWith("/app/")
+        ? pathname.slice("/app".length)
+        : pathname;
+
   return (
     <SidebarGroup>
       <SidebarGroupContent className="flex flex-col gap-2">
@@ -42,14 +51,40 @@ export function NavMain({
           </SidebarMenuItem>
         </SidebarMenu>
         <SidebarMenu>
-          {items.map((item) => (
-            <SidebarMenuItem key={item.title}>
-              <SidebarMenuButton tooltip={item.title}>
-                {item.icon && <item.icon />}
-                <span>{item.title}</span>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-          ))}
+          {items.map((item) => {
+            const isLinked = item.url !== "#";
+            const routePath = item.url.startsWith("/app")
+              ? item.url.slice("/app".length) || "/"
+              : item.url;
+            const isActive =
+              isLinked &&
+              (routePath === "/"
+                ? normalizedPathname === "/"
+                : normalizedPathname === routePath ||
+                  normalizedPathname.startsWith(`${routePath}/`));
+
+            return (
+              <SidebarMenuItem key={item.title}>
+                {isLinked ? (
+                  <SidebarMenuButton
+                    asChild
+                    tooltip={item.title}
+                    isActive={isActive}
+                  >
+                    <a href={item.url}>
+                      {item.icon && <item.icon />}
+                      <span>{item.title}</span>
+                    </a>
+                  </SidebarMenuButton>
+                ) : (
+                  <SidebarMenuButton tooltip={item.title}>
+                    {item.icon && <item.icon />}
+                    <span>{item.title}</span>
+                  </SidebarMenuButton>
+                )}
+              </SidebarMenuItem>
+            );
+          })}
         </SidebarMenu>
       </SidebarGroupContent>
     </SidebarGroup>

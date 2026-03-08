@@ -11,6 +11,7 @@ import {
   BarChart,
   Bot,
   Camera,
+  CreditCard,
   Database,
   FileBarChart,
   FileText,
@@ -23,7 +24,6 @@ import {
   Settings,
   Users,
 } from "lucide-react";
-import Link from "next/link";
 import type * as React from "react";
 import { NavDocuments } from "@/components/nav-documents";
 import { NavMain } from "@/components/nav-main";
@@ -39,8 +39,13 @@ const data = {
   navMain: [
     {
       title: "Dashboard",
-      url: "#",
+      url: "/app",
       icon: LayoutDashboard,
+    },
+    {
+      title: "Billing",
+      url: "/app/billing",
+      icon: CreditCard,
     },
     {
       title: "Lifecycle",
@@ -151,9 +156,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar collapsible="offcanvas" {...props}>
       <SidebarHeader>
-        <Link href="/" className="flex w-full items-center justify-center">
+        <a href="/app" className="flex w-full items-center justify-center">
           <AppLogo />
-        </Link>
+        </a>
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={data.navMain} />
