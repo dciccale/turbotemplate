@@ -2,7 +2,7 @@
   "name": "app",
   "version": "0.1.0",
   "private": true,
-  "packageManager": "bun@1.3.9",
+  "packageManager": "bun@1.3.11",
   "scripts": {
     "dev": "next dev -p 3001",
     "build": "next build",
@@ -11,8 +11,8 @@
     "format": "biome check --write"
   },
   "dependencies": {
-    "@clerk/localizations": "^3.37.2",
-    "@clerk/nextjs": "^6.39.0",
+    "@clerk/localizations": "^4.3.0",
+    "@clerk/nextjs": "^7.0.8",
     "@clerk/themes": "^2.4.57",
     "@dnd-kit/core": "^6.3.1",
     "@dnd-kit/modifiers": "^9.0.0",
@@ -21,25 +21,25 @@
     "@tanstack/react-table": "^8.21.3",
     "@turbotemplate/backend": "1.0.0",
     "@turbotemplate/ui": "0.1.0",
-    "convex": "^1.32.0",
-    "lucide-react": "^0.577.0",
-    "next": "16.1.6",
+    "convex": "^1.34.1",
+    "lucide-react": "^1.7.0",
+    "next": "16.2.2",
     "next-themes": "^0.4.6",
     "react": "19.2.4",
     "react-dom": "19.2.4",
-    "recharts": "^3.8.0",
+    "recharts": "^3.8.1",
     "sonner": "^2.0.7",
-    "streamdown": "^2.4.0",
+    "streamdown": "^2.5.0",
     "zod": "^4.3.6",
-    "zustand": "^5.0.11"
+    "zustand": "^5.0.12"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.4.6",
-    "@tailwindcss/postcss": "^4.2.1",
-    "@types/node": "^25.3.5",
+    "@biomejs/biome": "2.4.10",
+    "@tailwindcss/postcss": "^4.2.2",
+    "@types/node": "^25.5.2",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
-    "tailwindcss": "^4.2.1",
-    "typescript": "^5.9.3"
+    "tailwindcss": "^4.2.2",
+    "typescript": "^6.0.2"
   }
 }

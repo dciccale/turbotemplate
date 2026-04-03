@@ -3,8 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "dev": "bunx react-email@5.2.9 dev -p 3007",
-    "export": "bunx react-email@5.2.9 export",
+    "dev": "node ../../node_modules/react-email/dist/index.mjs dev -p 3007",
+    "export": "node ../../node_modules/react-email/dist/index.mjs export",
     "lint": "biome check",
     "format": "biome check --write"
   },
@@ -13,15 +13,17 @@
     "./render": "./render.tsx"
   },
   "dependencies": {
-    "@react-email/components": "1.0.8",
-    "@react-email/render": "^2.0.4",
+    "@react-email/components": "1.0.11",
+    "@react-email/render": "^2.0.5",
     "react": "19.2.4",
     "react-dom": "19.2.4"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.4.6",
+    "@react-email/preview-server": "5.2.10",
+    "@biomejs/biome": "2.4.10",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
-    "typescript": "^5.9.3"
+    "react-email": "5.2.10",
+    "typescript": "^6.0.2"
   }
 }
