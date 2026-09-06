@@ -25,9 +25,13 @@
     "saveLocale": "No se ha podido guardar el idioma. Vuelve a intentarlo."
   },
   "settings": {
-    "title": "Ajustes de la cuenta",
-    "description": "Elige el idioma de tu cuenta. El resto de tus preferencias se mantiene.",
-    "saved": "Idioma guardado"
+    "title": "Ajustes",
+    "description": "Gestiona tus preferencias de la aplicación.",
+    "saved": "Idioma guardado",
+    "preferences": "Preferencias",
+    "languageDescription": "Elige el idioma de la aplicación.",
+    "autoSave": "Los cambios se guardan automáticamente.",
+    "saving": "Guardando…"
   },
   "auth": {
     "welcome": "Te damos la bienvenida de nuevo a {brand}",

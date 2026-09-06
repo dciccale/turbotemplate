@@ -29,12 +29,12 @@ import {
   CreditCard,
   LogOut,
   MoreVertical,
+  Settings,
   UserCircle,
 } from "lucide-react";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { Copy } from "@/components/copy";
-import { LanguageSwitcher } from "./language-switcher";
 
 const marketingUrl = process.env.NEXT_PUBLIC_MARKETING_URL || "/";
 
@@ -45,18 +45,23 @@ function ProfileAvatar({
   user: ReturnType<typeof useUser>["user"];
   grayscale?: boolean;
 }) {
+  const t = useTranslations("common");
+  const name = user?.fullName?.trim() || user?.username || t("account");
+  const initials = name
+    .split(/\s+/)
+    .map((part) => part[0])
+    .slice(0, 2)
+    .join("")
+    .toLocaleUpperCase();
   return (
     <>
       <Avatar className={cn("h-8 w-8 rounded-lg", grayscale && "grayscale")}>
-        <AvatarImage src={user?.imageUrl} alt={user?.username || ""} />
-        <AvatarFallback className="rounded-lg">CN</AvatarFallback>
+        <AvatarImage src={user?.imageUrl} alt="" />
+        <AvatarFallback className="rounded-lg">{initials}</AvatarFallback>
       </Avatar>
-      <div className="grid flex-1 text-left text-sm leading-tight">
-        <span className="truncate font-medium">{user?.username}</span>
-        <span className="text-muted-foreground truncate text-xs">
-          {user?.primaryEmailAddress?.emailAddress}
-        </span>
-      </div>
+      <span className="min-w-0 flex-1 truncate text-left text-sm font-medium">
+        {name}
+      </span>
     </>
   );
 }
@@ -117,9 +122,15 @@ export function NavUser() {
                 <Copy id="Notifications" />
               </DropdownMenuItem>
             </DropdownMenuGroup>
-            <div className="px-2 py-2">
-              <LanguageSwitcher />
-            </div>
+            <DropdownMenuSeparator />
+            <DropdownMenuGroup>
+              <DropdownMenuItem asChild>
+                <Link href="/settings">
+                  <Settings />
+                  {t("settings")}
+                </Link>
+              </DropdownMenuItem>
+            </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuItem
               onClick={() => {
