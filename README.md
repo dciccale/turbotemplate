@@ -18,6 +18,10 @@ This repository is a Turborepo-managed monorepo with two Next.js apps and a shar
 
 All code is TypeScript.
 
+## Product requirements
+
+- [English and Spanish internationalization PRD](docs/i18n-prd.md): website routing, app preferences, authentication, billing, emails, and support in generated projects.
+
 ## Requirements
 
 - Node.js ≥ 18
@@ -126,3 +130,17 @@ For local development set `APP_ORIGIN=http://localhost:3001` in `apps/web` when 
 - Use `--filter` to scope tasks, e.g. `--filter=web` or `--filter=app`.
 
 Useful docs: tasks, caching, filters, and configuration at the Turborepo site.
+
+## English and Spanish
+
+Both apps share typed catalogs in `packages/i18n`. Public Spanish pages use `/es`. Account pages keep `/app` paths and save the selected language in account settings.
+
+See [the translation guide](docs/i18n-guide.md) for message, route, locale, email, and template changes. See [vendor release checks](docs/i18n-vendors.md) before announcing bilingual support.
+
+```sh
+bun run check-i18n
+bun run test
+bun run check-template
+```
+
+Dependencies use the latest stable registry versions checked on 6 September 2026. Use Bun 1.4.0 and Node 24 LTS. Next.js 16.3.4 has a small tracked patch to preserve response `Vary` headers. See the translation guide before upgrading Next.js.

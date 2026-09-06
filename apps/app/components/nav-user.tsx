@@ -1,6 +1,7 @@
 "use client";
 
 import { useClerk, useUser } from "@clerk/nextjs";
+import { clearAccountMirror } from "@turbotemplate/i18n/browser";
 import { AppIcon } from "@turbotemplate/ui/components/app-icon";
 import {
   Avatar,
@@ -30,6 +31,10 @@ import {
   MoreVertical,
   UserCircle,
 } from "lucide-react";
+import Link from "next/link";
+import { useTranslations } from "next-intl";
+import { Copy } from "@/components/copy";
+import { LanguageSwitcher } from "./language-switcher";
 
 const marketingUrl = process.env.NEXT_PUBLIC_MARKETING_URL || "/";
 
@@ -57,6 +62,7 @@ function ProfileAvatar({
 }
 
 export function NavUser() {
+  const t = useTranslations("common");
   const { user } = useUser();
   const { openUserProfile, signOut } = useClerk();
   const { isMobile } = useSidebar();
@@ -89,32 +95,40 @@ export function NavUser() {
             <DropdownMenuGroup>
               <DropdownMenuItem onClick={() => openUserProfile()}>
                 <UserCircle />
-                Account
+                {t("account")}
               </DropdownMenuItem>
               <DropdownMenuItem>
                 <a href={marketingUrl} className="flex items-center gap-1.5">
                   <AppIcon />
-                  Web
+                  <Copy id="Web" />
                 </a>
               </DropdownMenuItem>
               <DropdownMenuItem>
-                <a
-                  href="/app/billing"
+                <Link
+                  href="/billing"
                   className="flex w-full items-center gap-1.5"
                 >
                   <CreditCard />
-                  Billing
-                </a>
+                  {t("billing")}
+                </Link>
               </DropdownMenuItem>
               <DropdownMenuItem>
                 <Bell />
-                Notifications
+                <Copy id="Notifications" />
               </DropdownMenuItem>
             </DropdownMenuGroup>
+            <div className="px-2 py-2">
+              <LanguageSwitcher />
+            </div>
             <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={() => signOut()}>
+            <DropdownMenuItem
+              onClick={() => {
+                clearAccountMirror();
+                void signOut();
+              }}
+            >
               <LogOut />
-              Log out
+              {t("signOut")}
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

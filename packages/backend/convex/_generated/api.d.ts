@@ -8,10 +8,13 @@
  * @module
  */
 
+import type * as billingLocale from "../billingLocale.js";
 import type * as emailsNode from "../emailsNode.js";
 import type * as http from "../http.js";
 import type * as resend from "../resend.js";
+import type * as settings from "../settings.js";
 import type * as stripe from "../stripe.js";
+import type * as validators from "../validators.js";
 
 import type {
   ApiFromModules,
@@ -20,10 +23,13 @@ import type {
 } from "convex/server";
 
 declare const fullApi: ApiFromModules<{
+  billingLocale: typeof billingLocale;
   emailsNode: typeof emailsNode;
   http: typeof http;
   resend: typeof resend;
+  settings: typeof settings;
   stripe: typeof stripe;
+  validators: typeof validators;
 }>;
 
 /**

@@ -9,7 +9,10 @@ import {
   SidebarMenuItem,
 } from "@turbotemplate/ui/components/ui/sidebar";
 import { CirclePlus, type LucideIcon, Mail } from "lucide-react";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useTranslations } from "next-intl";
+import { Copy } from "@/components/copy";
 
 export function NavMain({
   items,
@@ -20,6 +23,7 @@ export function NavMain({
     icon?: LucideIcon;
   }[];
 }) {
+  const t = useTranslations("dashboard");
   const pathname = usePathname();
   const normalizedPathname =
     pathname === "/app"
@@ -34,11 +38,13 @@ export function NavMain({
         <SidebarMenu>
           <SidebarMenuItem className="flex items-center gap-2">
             <SidebarMenuButton
-              tooltip="Quick Create"
+              tooltip={t("QuickCreate")}
               className="bg-primary text-primary-foreground hover:bg-primary/90 hover:text-primary-foreground active:bg-primary/90 active:text-primary-foreground min-w-8 duration-200 ease-linear"
             >
               <CirclePlus />
-              <span>Quick Create</span>
+              <span>
+                <Copy id="QuickCreate" />
+              </span>
             </SidebarMenuButton>
             <Button
               size="icon"
@@ -46,7 +52,9 @@ export function NavMain({
               variant="outline"
             >
               <Mail />
-              <span className="sr-only">Inbox</span>
+              <span className="sr-only">
+                <Copy id="Inbox" />
+              </span>
             </Button>
           </SidebarMenuItem>
         </SidebarMenu>
@@ -71,10 +79,10 @@ export function NavMain({
                     tooltip={item.title}
                     isActive={isActive}
                   >
-                    <a href={item.url}>
+                    <Link href={item.url}>
                       {item.icon && <item.icon />}
                       <span>{item.title}</span>
-                    </a>
+                    </Link>
                   </SidebarMenuButton>
                 ) : (
                   <SidebarMenuButton tooltip={item.title}>

@@ -1,8 +1,13 @@
+import { product } from "@turbotemplate/i18n";
 import type { Metadata } from "next";
+import { headers } from "next/headers";
+import { NextIntlClientProvider } from "next-intl";
+import { getLocale } from "next-intl/server";
 import "@turbotemplate/ui/globals.css";
-import { enUS } from "@clerk/localizations";
+import "./marketing.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import { shadcn } from "@clerk/themes";
+import { clerkLocales } from "@turbotemplate/i18n/clerk";
 import { ThemeProvider } from "@turbotemplate/ui/providers/theme-provider";
 import { Geist, Geist_Mono } from "next/font/google";
 import { SiteFooter } from "@/components/site-footer";
@@ -19,42 +24,21 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://turbotemplate.com"),
-  title: {
-    default: "turbotemplate — Turborepo monorepo boilerplate",
-    template: "%s — turbotemplate",
-  },
-  description:
-    "A batteries-included Turborepo monorepo template with Next.js 16, Tailwind CSS v4, shadcn/ui, Clerk auth, and a Convex backend. Demo pages included (landing, FAQ, pricing).",
-  alternates: {
-    canonical: "/",
-  },
-  openGraph: {
-    title: "turbotemplate — Turborepo monorepo boilerplate",
-    description:
-      "Monorepo template for Next.js 16, Tailwind 4, shadcn/ui, Clerk, and Convex. Mock site for demo purposes.",
-    type: "website",
-    url: "https://turbotemplate-web.vercel.app",
-    siteName: "turbotemplate",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "turbotemplate — Turborepo monorepo boilerplate",
-    description:
-      "Monorepo template with Next.js 16, Tailwind 4, shadcn/ui, Clerk, and Convex.",
-  },
-  icons: {
-    icon: "/favicon.ico",
-  },
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_MARKETING_URL || product.origin,
+  ),
+  title: { default: product.name, template: `%s — ${product.name}` },
 };
 
 const marketingUrl = process.env.NEXT_PUBLIC_MARKETING_URL || "/";
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const locale = await getLocale();
+  const search = (await headers()).get("x-public-search") ?? "";
   return (
     <ClerkProvider
       publishableKey={process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}
@@ -63,12 +47,12 @@ export default function RootLayout({
       signUpUrl="/app/sign-up"
       signInFallbackRedirectUrl="/app"
       signUpFallbackRedirectUrl="/app"
-      localization={enUS}
+      localization={clerkLocales[locale]}
       appearance={{
-        baseTheme: shadcn,
+        theme: shadcn,
       }}
     >
-      <html lang="en" suppressHydrationWarning>
+      <html lang={locale} suppressHydrationWarning>
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background text-foreground`}
         >
@@ -77,11 +61,13 @@ export default function RootLayout({
             defaultTheme="system"
             enableSystem
             disableTransitionOnChange
-            storageKey="turbotemplate-theme"
+            storageKey={`${product.cookiePrefix}-theme`}
           >
-            <SiteHeader />
-            {children}
-            <SiteFooter />
+            <NextIntlClientProvider>
+              <SiteHeader search={search} />
+              {children}
+              <SiteFooter />
+            </NextIntlClientProvider>
           </ThemeProvider>
         </body>
       </html>

@@ -73,10 +73,10 @@ rsync -a \
   --exclude='.next' \
   --exclude='.turbo' \
   --exclude='.vercel' \
-  --exclude='.env' \
-  --exclude='.env.local' \
-  --exclude='bun.lock' \
-  --exclude='bin/' \
+  --include='.env.example' \
+  --exclude='.env*' \
+  --exclude='.clerk' \
+  --exclude='coverage' \
   "$TEMPLATE_DIR/" "$TARGET_DIR/"
 
 # ─── Replace "turbotemplate" → project name in all text files ────────────────

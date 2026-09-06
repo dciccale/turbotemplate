@@ -1,15 +1,29 @@
 import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
-import type { NextFetchEvent, NextRequest } from "next/server";
-import { NextResponse } from "next/server";
+import {
+  localeCookie,
+  parseLocale,
+  parsePreference,
+  resolveAppLocale,
+} from "@turbotemplate/i18n";
+import type { NextFetchEvent } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
-const isPublicRoute = createRouteMatcher(["/sign-in(.*)", "/sign-up(.*)"]);
+const isPublicRoute = createRouteMatcher([
+  "/sign-in(.*)",
+  "/sign-up(.*)",
+  "/app/sign-in(.*)",
+  "/app/sign-up(.*)",
+]);
 
 const clerk = clerkMiddleware(async (auth, req) => {
   const { userId } = await auth();
 
   // Redirect signed-in users away from sign-in/sign-up pages
   if (userId && isPublicRoute(req)) {
-    return NextResponse.redirect(new URL("/app", req.url));
+    const target = new URL("/app", req.url);
+    const hint = parseLocale(req.nextUrl.searchParams.get("lang"));
+    if (hint) target.searchParams.set("lang", hint);
+    return NextResponse.redirect(target);
   }
 
   if (!isPublicRoute(req)) {
@@ -18,7 +32,20 @@ const clerk = clerkMiddleware(async (auth, req) => {
 });
 
 export default async function proxy(req: NextRequest, event: NextFetchEvent) {
-  const clerkRes = await clerk(req, event);
+  const requestHeaders = new Headers(req.headers);
+  requestHeaders.delete("x-app-language-hint");
+  const hint = parseLocale(req.nextUrl.searchParams.get("lang"));
+  if (hint) requestHeaders.set("x-app-language-hint", hint);
+  const preference = parsePreference(req.cookies.get(localeCookie)?.value);
+  const locale = resolveAppLocale({
+    preference: preference?.source === "visitor" ? preference : undefined,
+    hint,
+    header: req.headers.get("accept-language"),
+  });
+  const clerkRes = await clerk(
+    new NextRequest(req, { headers: requestHeaders }),
+    event,
+  );
 
   // Clerk uses NextResponse.rewrite(req.url) to forward auth headers to the
   // page handler. In Next.js 16 this creates an infinite rewrite loop because
@@ -35,9 +62,11 @@ export default async function proxy(req: NextRequest, event: NextFetchEvent) {
       next.headers.set(key, value);
     }
 
+    next.headers.set("Content-Language", locale);
     return next;
   }
 
+  if (clerkRes) clerkRes.headers.set("Content-Language", locale);
   return clerkRes;
 }
 

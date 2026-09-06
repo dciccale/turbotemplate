@@ -10,39 +10,43 @@ import {
   Section,
   Text,
 } from "@react-email/components";
+import { type Locale, product } from "@turbotemplate/i18n";
+import { emailText } from "@turbotemplate/i18n/email";
 
 export type WelcomeEmailProps = {
+  locale?: Locale;
   name?: string;
   appUrl: string;
 };
 
-export function WelcomeEmail({ name, appUrl }: WelcomeEmailProps) {
-  const firstName = name?.trim() || "builder";
+export function WelcomeEmail({
+  name,
+  appUrl,
+  locale = "en",
+}: WelcomeEmailProps) {
+  const t = emailText(locale);
+  const firstName = name?.trim() || t("fallbackName");
 
   return (
-    <Html>
+    <Html lang={locale}>
       <Head />
-      <Preview>Your Turbotemplate workspace is ready</Preview>
+      <Preview>{t("preview", { brand: product.name })}</Preview>
       <Body style={body}>
         <Container style={container}>
-          <Text style={eyebrow}>Turbotemplate</Text>
-          <Heading style={heading}>Welcome, {firstName}</Heading>
-          <Text style={text}>
-            Your account is live and ready to go. Turbotemplate gives you a
-            production-ready starting point so you can move from idea to shipped
-            product faster.
-          </Text>
-          <Text style={text}>
-            Open your workspace to continue setup and start building.
-          </Text>
+          <Text style={eyebrow}>{product.name}</Text>
+          <Heading style={heading}>
+            {t("greeting", { name: firstName })}
+          </Heading>
+          <Text style={text}>{t("body", { brand: product.name })}</Text>
+          <Text style={text}>{t("continue")}</Text>
           <Section style={buttonSection}>
             <Button href={appUrl} style={button}>
-              Open Workspace
+              {t("button")}
             </Button>
           </Section>
           <Hr style={divider} />
           <Text style={smallText}>
-            If the button does not work, paste this URL in your browser:
+            {t("linkHelp")}
             <br />
             {appUrl}
           </Text>

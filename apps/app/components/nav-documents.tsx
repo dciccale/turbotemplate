@@ -23,6 +23,8 @@ import {
   Share2,
   Trash,
 } from "lucide-react";
+import Link from "next/link";
+import { Copy } from "@/components/copy";
 
 export function NavDocuments({
   items,
@@ -37,15 +39,17 @@ export function NavDocuments({
 
   return (
     <SidebarGroup className="group-data-[collapsible=icon]:hidden">
-      <SidebarGroupLabel>Documents</SidebarGroupLabel>
+      <SidebarGroupLabel>
+        <Copy id="Documents" />
+      </SidebarGroupLabel>
       <SidebarMenu>
         {items.map((item) => (
           <SidebarMenuItem key={item.name}>
             <SidebarMenuButton asChild>
-              <a href={item.url}>
+              <Link href={item.url}>
                 <item.icon />
                 <span>{item.name}</span>
-              </a>
+              </Link>
             </SidebarMenuButton>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
@@ -54,7 +58,9 @@ export function NavDocuments({
                   className="data-[state=open]:bg-accent rounded-sm"
                 >
                   <MoreHorizontal />
-                  <span className="sr-only">More</span>
+                  <span className="sr-only">
+                    <Copy id="More" />
+                  </span>
                 </SidebarMenuAction>
               </DropdownMenuTrigger>
               <DropdownMenuContent
@@ -64,16 +70,22 @@ export function NavDocuments({
               >
                 <DropdownMenuItem>
                   <Folder />
-                  <span>Open</span>
+                  <span>
+                    <Copy id="Open" />
+                  </span>
                 </DropdownMenuItem>
                 <DropdownMenuItem>
                   <Share2 />
-                  <span>Share</span>
+                  <span>
+                    <Copy id="Share" />
+                  </span>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem variant="destructive">
                   <Trash />
-                  <span>Delete</span>
+                  <span>
+                    <Copy id="Delete" />
+                  </span>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
@@ -82,7 +94,9 @@ export function NavDocuments({
         <SidebarMenuItem>
           <SidebarMenuButton className="text-sidebar-foreground/70">
             <MoreHorizontal className="text-sidebar-foreground/70" />
-            <span>More</span>
+            <span>
+              <Copy id="More" />
+            </span>
           </SidebarMenuButton>
         </SidebarMenuItem>
       </SidebarMenu>

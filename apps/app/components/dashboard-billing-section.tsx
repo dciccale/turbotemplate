@@ -1,6 +1,11 @@
 "use client";
 
 import { api } from "@turbotemplate/backend/api";
+
+import {
+  formatMoney as localizedMoney,
+  parseLocale,
+} from "@turbotemplate/i18n";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -40,8 +45,11 @@ import {
   RefreshCcw,
 } from "lucide-react";
 import { useSearchParams } from "next/navigation";
+import { useFormatter, useLocale, useTranslations } from "next-intl";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
+import { Copy } from "@/components/copy";
+import { billingIntervalKey, billingStatusKey } from "@/i18n/labels";
 
 type BillingProduct = {
   stripeProductId: string;
@@ -83,85 +91,6 @@ function isActiveSubscriptionStatus(status: string) {
   );
 }
 
-function formatInvoiceDate(unixSeconds: number) {
-  return new Date(unixSeconds * 1000).toLocaleDateString(undefined, {
-    month: "short",
-    day: "numeric",
-    year: "numeric",
-  });
-}
-
-function formatMoney(amountCents: number, currency: string) {
-  return (amountCents / 100).toLocaleString(undefined, {
-    style: "currency",
-    currency: currency.toUpperCase(),
-  });
-}
-
-function formatProductPrice(product: BillingProduct) {
-  const amount = formatMoney(product.unitAmount, product.currency);
-  if (product.mode === "payment") {
-    return amount;
-  }
-
-  if (product.interval && product.intervalCount && product.intervalCount > 1) {
-    return `${amount} / ${product.intervalCount} ${product.interval}s`;
-  }
-
-  return `${amount} / ${product.interval ?? "period"}`;
-}
-
-function extractErrorMessage(error: unknown): string | null {
-  if (typeof error === "string") {
-    const trimmed = error.trim();
-    return trimmed.length > 0 ? trimmed : null;
-  }
-
-  if (error instanceof Error) {
-    const trimmed = error.message.trim();
-    return trimmed.length > 0 ? trimmed : null;
-  }
-
-  if (
-    error &&
-    typeof error === "object" &&
-    "message" in error &&
-    typeof (error as { message?: unknown }).message === "string"
-  ) {
-    const trimmed = (error as { message: string }).message.trim();
-    return trimmed.length > 0 ? trimmed : null;
-  }
-
-  return null;
-}
-
-function toUserFacingBillingError(error: unknown, fallback: string) {
-  const message = extractErrorMessage(error);
-  if (!message) {
-    return fallback;
-  }
-
-  const normalized = message.toLowerCase();
-  if (normalized.includes("invoice pdf is not available")) {
-    return "Invoice PDF is not available yet.";
-  }
-  if (normalized.includes("invoice not found")) {
-    return "Invoice not found for your account.";
-  }
-  if (normalized.includes("not authenticated")) {
-    return "Your session expired. Refresh and try again.";
-  }
-  if (
-    message.includes("[CONVEX") ||
-    normalized.includes("request id:") ||
-    normalized.includes("server error")
-  ) {
-    return fallback;
-  }
-
-  return message;
-}
-
 function badgeClassNameForStatus(status: string) {
   const normalized = normalizeStatus(status);
   if (normalized === "paid" || normalized === "active") {
@@ -180,6 +109,32 @@ function badgeClassNameForStatus(status: string) {
 }
 
 export function DashboardBillingSection() {
+  const t = useTranslations("billing");
+  const locale = parseLocale(useLocale()) ?? "en";
+  const format = useFormatter();
+  const formatMoney = (amount: number, currency: string) =>
+    localizedMoney(amount, currency, locale);
+  const formatInvoiceDate = (seconds: number) =>
+    format.dateTime(new Date(seconds * 1000), {
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+    });
+  const statusLabel = (status: string) => t(billingStatusKey(status));
+  const formatProductPrice = (product: BillingProduct) => {
+    const amount = formatMoney(product.unitAmount, product.currency);
+    const count = product.intervalCount ?? 1;
+    const interval = billingIntervalKey(product.interval);
+    return product.mode === "payment"
+      ? amount
+      : t("recurringPrice", {
+          amount,
+          count,
+          interval: t(interval, { count }),
+        });
+  };
+  const toUserFacingBillingError = (_error: unknown, fallback: string) =>
+    fallback;
   const searchParams = useSearchParams();
   const checkoutState = searchParams.get("checkout");
   const checkoutHandledRef = useRef<string | null>(null);
@@ -205,8 +160,12 @@ export function DashboardBillingSection() {
   const [invoices, setInvoices] = useState<BillingInvoice[]>([]);
   const [loadingProducts, setLoadingProducts] = useState(true);
   const [loadingInvoices, setLoadingInvoices] = useState(true);
-  const [productsError, setProductsError] = useState<string | null>(null);
-  const [invoicesError, setInvoicesError] = useState<string | null>(null);
+  const [productsError, setProductsError] = useState<
+    "loadProducts" | "loadInvoices" | null
+  >(null);
+  const [invoicesError, setInvoicesError] = useState<
+    "loadProducts" | "loadInvoices" | null
+  >(null);
   const [refreshToken, setRefreshToken] = useState(0);
   const [downloadingInvoiceId, setDownloadingInvoiceId] = useState<
     string | null
@@ -234,11 +193,9 @@ export function DashboardBillingSection() {
         }),
       );
     })(refreshToken)
-      .catch((error) => {
+      .catch(() => {
         if (cancelled) return;
-        setProductsError(
-          toUserFacingBillingError(error, "Could not load Stripe products."),
-        );
+        setProductsError("loadProducts");
       })
       .finally(() => {
         if (cancelled) return;
@@ -262,11 +219,9 @@ export function DashboardBillingSection() {
 
       setInvoices([...result].sort((a, b) => b.created - a.created));
     })(refreshToken)
-      .catch((error) => {
+      .catch(() => {
         if (cancelled) return;
-        setInvoicesError(
-          toUserFacingBillingError(error, "Could not load invoices."),
-        );
+        setInvoicesError("loadInvoices");
       })
       .finally(() => {
         if (cancelled) return;
@@ -285,16 +240,16 @@ export function DashboardBillingSection() {
     checkoutHandledRef.current = checkoutState;
 
     if (checkoutState === "success") {
-      toast.success("Checkout completed. Refreshing billing state.");
+      toast.success(t("checkoutComplete"));
       setRefreshToken((current) => current + 1);
     } else if (checkoutState === "canceled") {
-      toast.message("Checkout canceled.");
+      toast.message(t("checkoutCanceled"));
     }
 
     const next = new URL(window.location.href);
     next.searchParams.delete("checkout");
     window.history.replaceState({}, "", `${next.pathname}${next.search}`);
-  }, [checkoutState]);
+  }, [checkoutState, t]);
 
   const sortedSubscriptions = subscriptions
     ? [...subscriptions].sort((a, b) => b.currentPeriodEnd - a.currentPeriodEnd)
@@ -330,13 +285,12 @@ export function DashboardBillingSection() {
 
       const result = await createCustomerPortalSessionForCurrentUser({
         returnUrl: currentUrl.toString(),
+        locale,
       });
 
       window.location.href = result.url;
     } catch (error) {
-      toast.error(
-        toUserFacingBillingError(error, "Could not open the billing portal."),
-      );
+      toast.error(toUserFacingBillingError(error, t("openPortalError")));
       setOpeningPortal(false);
     }
   };
@@ -346,13 +300,11 @@ export function DashboardBillingSection() {
 
     try {
       await cancelSubscriptionForCurrentUser({ immediate: true });
-      toast.success("Subscription canceled immediately.");
+      toast.success(t("canceled"));
       setCancelNowOpen(false);
       setRefreshToken((current) => current + 1);
     } catch (error) {
-      toast.error(
-        toUserFacingBillingError(error, "Could not cancel subscription."),
-      );
+      toast.error(toUserFacingBillingError(error, t("cancelError")));
     } finally {
       setCancelingNow(false);
     }
@@ -365,15 +317,13 @@ export function DashboardBillingSection() {
       const result = await getInvoiceDownloadLink({ stripeInvoiceId });
       const url = result.invoicePdfUrl ?? result.hostedInvoiceUrl;
       if (!url) {
-        toast.error("Invoice PDF is not available yet.");
+        toast.error(t("pdfUnavailable"));
         return;
       }
 
       window.open(url, "_blank", "noopener,noreferrer");
     } catch (error) {
-      toast.error(
-        toUserFacingBillingError(error, "Could not download invoice."),
-      );
+      toast.error(toUserFacingBillingError(error, t("downloadError")));
     } finally {
       setDownloadingInvoiceId((current) =>
         current === stripeInvoiceId ? null : current,
@@ -388,51 +338,58 @@ export function DashboardBillingSection() {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <CreditCard className="size-4" />
-              Billing dashboard
+              <Copy id="BillingDashboard" />
             </CardTitle>
             <CardDescription>
-              View your current plan, manage it in the Stripe portal, and
-              download invoice PDFs.
+              <Copy id="ViewYourCurrentPlanManageItInTheStripePortalAndDownloadInvoicePdfs" />
             </CardDescription>
           </CardHeader>
           <CardContent className="grid gap-4 md:grid-cols-3">
             <div className="rounded-xl border bg-muted/20 p-4">
               <div className="text-xs uppercase tracking-wide text-muted-foreground">
-                Current plan
+                <Copy id="CurrentPlan" />
               </div>
               <div className="mt-2 text-lg font-semibold">
                 {activeProduct?.name ??
                   (activeSubscription
                     ? activeSubscription.priceId
-                    : "No active subscription")}
+                    : t("noSubscription"))}
               </div>
               <div className="mt-1 text-sm text-muted-foreground">
                 {activeProduct
                   ? formatProductPrice(activeProduct)
                   : activeSubscription
-                    ? `Price ID: ${activeSubscription.priceId}`
-                    : "No active Stripe subscription is linked to this account."}
+                    ? t("priceId", { id: activeSubscription.priceId })
+                    : t("noLinkedSubscription")}
               </div>
             </div>
             <div className="rounded-xl border bg-muted/20 p-4">
               <div className="text-xs uppercase tracking-wide text-muted-foreground">
-                Subscription status
+                <Copy id="SubscriptionStatus" />
               </div>
               <div className="mt-2 text-lg font-semibold">
-                {activeSubscription ? activeSubscription.status : "Inactive"}
+                {activeSubscription
+                  ? statusLabel(activeSubscription.status)
+                  : t("inactive")}
               </div>
               <div className="mt-1 text-sm text-muted-foreground">
                 {activeSubscription?.cancelAtPeriodEnd &&
                 scheduledCancellationDate
-                  ? `Scheduled to end on ${formatInvoiceDate(scheduledCancellationDate)}`
+                  ? t("endDate", {
+                      date: formatInvoiceDate(scheduledCancellationDate),
+                    })
                   : activeSubscription
-                    ? `Renews on ${formatInvoiceDate(activeSubscription.currentPeriodEnd)}`
-                    : "Open the portal to start or manage billing."}
+                    ? t("renewDate", {
+                        date: formatInvoiceDate(
+                          activeSubscription.currentPeriodEnd,
+                        ),
+                      })
+                    : t("portalHelp")}
               </div>
             </div>
             <div className="rounded-xl border bg-muted/20 p-4">
               <div className="text-xs uppercase tracking-wide text-muted-foreground">
-                Latest invoice
+                <Copy id="LatestInvoice" />
               </div>
               <div className="mt-2 text-lg font-semibold">
                 {lastInvoice
@@ -440,12 +397,12 @@ export function DashboardBillingSection() {
                       lastInvoice.amountPaid || lastInvoice.amountDue,
                       lastInvoice.currency,
                     )
-                  : "No invoices yet"}
+                  : t("noInvoices")}
               </div>
               <div className="mt-1 text-sm text-muted-foreground">
                 {lastInvoice
-                  ? `${formatInvoiceDate(lastInvoice.created)} · ${lastInvoice.status}`
-                  : "Invoices will appear here once Stripe creates the first invoice."}
+                  ? `${formatInvoiceDate(lastInvoice.created)} · ${statusLabel(lastInvoice.status)}`
+                  : t("invoiceHelp")}
               </div>
             </div>
           </CardContent>
@@ -453,10 +410,11 @@ export function DashboardBillingSection() {
 
         <Card>
           <CardHeader>
-            <CardTitle>Subscription</CardTitle>
+            <CardTitle>
+              <Copy id="Subscription" />
+            </CardTitle>
             <CardDescription>
-              Manage your subscription from Stripe, with current cancellation
-              state mirrored here.
+              <Copy id="ManageYourSubscriptionFromStripeWithCurrentCancellationStateMirroredHere" />
             </CardDescription>
             <CardAction>
               <Button
@@ -466,7 +424,7 @@ export function DashboardBillingSection() {
                 disabled={loadingInvoices || loadingProducts}
               >
                 <RefreshCcw />
-                Refresh
+                <Copy id="Refresh" />
               </Button>
             </CardAction>
           </CardHeader>
@@ -483,8 +441,14 @@ export function DashboardBillingSection() {
                     <div className="text-sm text-muted-foreground">
                       {activeSubscription.cancelAtPeriodEnd &&
                       scheduledCancellationDate
-                        ? `Scheduled to end on ${formatInvoiceDate(scheduledCancellationDate)}`
-                        : `Renews on ${formatInvoiceDate(activeSubscription.currentPeriodEnd)}`}
+                        ? t("endDate", {
+                            date: formatInvoiceDate(scheduledCancellationDate),
+                          })
+                        : t("renewDate", {
+                            date: formatInvoiceDate(
+                              activeSubscription.currentPeriodEnd,
+                            ),
+                          })}
                     </div>
                   </div>
                   <Badge
@@ -493,22 +457,21 @@ export function DashboardBillingSection() {
                       activeSubscription.status,
                     )}
                   >
-                    {activeSubscription.status}
+                    {statusLabel(activeSubscription.status)}
                   </Badge>
                 </div>
                 {activeSubscription.cancelAtPeriodEnd ? (
                   <p className="rounded-lg border border-amber-500/20 bg-amber-500/10 px-3 py-2 text-sm text-amber-700 dark:text-amber-300">
-                    Stripe has this subscription set to cancel at period end on{" "}
-                    {scheduledCancellationDate
-                      ? formatInvoiceDate(scheduledCancellationDate)
-                      : "the next billing date"}
-                    .
+                    {t("cancelScheduled", {
+                      date: scheduledCancellationDate
+                        ? formatInvoiceDate(scheduledCancellationDate)
+                        : t("nextBillingDate"),
+                    })}
                   </p>
                 ) : null}
                 {productsError ? (
                   <p className="text-sm text-muted-foreground">
-                    Could not load plan catalog metadata. Stripe portal access
-                    still works.
+                    <Copy id="CouldNotLoadPlanCatalogMetadataStripePortalAccessStillWorks" />
                   </p>
                 ) : null}
                 <div className="flex flex-col gap-2 sm:flex-row">
@@ -523,7 +486,7 @@ export function DashboardBillingSection() {
                     ) : (
                       <ExternalLink />
                     )}
-                    Open billing portal
+                    <Copy id="OpenBillingPortal" />
                   </Button>
                   {hasManagedSubscription ? (
                     <Button
@@ -535,14 +498,14 @@ export function DashboardBillingSection() {
                       {cancelingNow ? (
                         <Loader2 className="animate-spin" />
                       ) : null}
-                      Cancel now
+                      <Copy id="CancelNow" />
                     </Button>
                   ) : null}
                 </div>
               </div>
             ) : (
               <div className="rounded-xl border border-dashed p-4 text-sm text-muted-foreground">
-                No active subscription found for this account.
+                <Copy id="NoActiveSubscriptionFoundForThisAccount" />
               </div>
             )}
           </CardContent>
@@ -553,10 +516,10 @@ export function DashboardBillingSection() {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Receipt className="size-4" />
-            Invoices
+            <Copy id="Invoices" />
           </CardTitle>
           <CardDescription>
-            Download Stripe-hosted invoice PDFs for completed billing events.
+            <Copy id="DownloadStripeHostedInvoicePdfsForCompletedBillingEvents" />
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -573,21 +536,31 @@ export function DashboardBillingSection() {
             </div>
           ) : invoicesError ? (
             <div className="rounded-xl border border-destructive/20 bg-destructive/5 p-4 text-sm text-destructive">
-              {invoicesError}
+              {t(invoicesError)}
             </div>
           ) : invoices.length === 0 ? (
             <div className="rounded-xl border border-dashed p-6 text-sm text-muted-foreground">
-              No invoices found for this user yet.
+              <Copy id="NoInvoicesFoundForThisUserYet" />
             </div>
           ) : (
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>Invoice</TableHead>
-                  <TableHead>Date</TableHead>
-                  <TableHead>Status</TableHead>
-                  <TableHead>Amount</TableHead>
-                  <TableHead className="text-right">Download</TableHead>
+                  <TableHead>
+                    <Copy id="Invoice" />
+                  </TableHead>
+                  <TableHead>
+                    <Copy id="Date" />
+                  </TableHead>
+                  <TableHead>
+                    <Copy id="Status" />
+                  </TableHead>
+                  <TableHead>
+                    <Copy id="Amount" />
+                  </TableHead>
+                  <TableHead className="text-right">
+                    <Copy id="Download" />
+                  </TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -607,7 +580,7 @@ export function DashboardBillingSection() {
                         variant="outline"
                         className={badgeClassNameForStatus(invoice.status)}
                       >
-                        {invoice.status}
+                        {statusLabel(invoice.status)}
                       </Badge>
                     </TableCell>
                     <TableCell>
@@ -632,7 +605,7 @@ export function DashboardBillingSection() {
                         ) : (
                           <Download />
                         )}
-                        PDF
+                        <Copy id="Pdf" />
                       </Button>
                     </TableCell>
                   </TableRow>
@@ -647,16 +620,15 @@ export function DashboardBillingSection() {
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>
-              Cancel subscription immediately?
+              <Copy id="CancelSubscriptionImmediately" />
             </AlertDialogTitle>
             <AlertDialogDescription>
-              This ends access now instead of waiting for the billing period to
-              finish. Stripe will mark the subscription as canceled immediately.
+              <Copy id="ThisEndsAccessNowInsteadOfWaitingForTheBillingPeriodToFinishStripeWillMarkTheSubscriptionA" />
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel disabled={cancelingNow}>
-              Keep it
+              <Copy id="KeepIt" />
             </AlertDialogCancel>
             <AlertDialogAction
               variant="destructive"
@@ -664,7 +636,7 @@ export function DashboardBillingSection() {
               disabled={cancelingNow}
             >
               {cancelingNow ? <Loader2 className="animate-spin" /> : null}
-              Cancel now
+              <Copy id="CancelNow" />
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

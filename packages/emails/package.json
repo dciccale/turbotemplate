@@ -6,7 +6,9 @@
     "dev": "node ../../node_modules/react-email/dist/index.mjs dev -p 3007",
     "export": "node ../../node_modules/react-email/dist/index.mjs export",
     "lint": "biome check",
-    "format": "biome check --write"
+    "format": "biome check --write",
+    "check-types": "tsc --noEmit",
+    "test": "vitest run"
   },
   "exports": {
     ".": "./index.ts",
@@ -14,16 +16,18 @@
   },
   "dependencies": {
     "@react-email/components": "1.0.12",
-    "@react-email/render": "^2.0.7",
-    "react": "19.2.5",
-    "react-dom": "19.2.5"
+    "@react-email/render": "^2.1.0",
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
+    "@turbotemplate/i18n": "workspace:*"
   },
   "devDependencies": {
     "@react-email/preview-server": "5.2.10",
-    "@biomejs/biome": "2.4.12",
-    "@types/react": "^19.2.14",
-    "@types/react-dom": "^19.2.3",
-    "react-email": "6.0.0",
-    "typescript": "^6.0.2"
+    "@biomejs/biome": "2.5.12",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.7",
+    "react-email": "6.9.3",
+    "typescript": "^7.0.2",
+    "vitest": "^5.0.0"
   }
 }

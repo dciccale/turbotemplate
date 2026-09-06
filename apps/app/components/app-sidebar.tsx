@@ -1,5 +1,6 @@
 "use client";
 
+import { product } from "@turbotemplate/i18n";
 import { AppLogo } from "@turbotemplate/ui/components/app-logo";
 import {
   Sidebar,
@@ -24,11 +25,14 @@ import {
   Settings,
   Users,
 } from "lucide-react";
+import Link from "next/link";
+import { useTranslations } from "next-intl";
 import type * as React from "react";
 import { NavDocuments } from "@/components/nav-documents";
 import { NavMain } from "@/components/nav-main";
 import { NavSecondary } from "@/components/nav-secondary";
 import { NavUser } from "@/components/nav-user";
+import { dashboardKey } from "@/i18n/labels";
 
 const data = {
   user: {
@@ -39,12 +43,12 @@ const data = {
   navMain: [
     {
       title: "Dashboard",
-      url: "/app",
+      url: "/",
       icon: LayoutDashboard,
     },
     {
       title: "Billing",
-      url: "/app/billing",
+      url: "/billing",
       icon: CreditCard,
     },
     {
@@ -119,7 +123,7 @@ const data = {
   navSecondary: [
     {
       title: "Settings",
-      url: "#",
+      url: "/settings",
       icon: Settings,
     },
     {
@@ -153,17 +157,34 @@ const data = {
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const t = useTranslations("dashboard");
   return (
     <Sidebar collapsible="offcanvas" {...props}>
       <SidebarHeader>
-        <a href="/app" className="flex w-full items-center justify-center">
-          <AppLogo />
-        </a>
+        <Link href="/" className="flex w-full items-center justify-center">
+          <AppLogo name={product.name} />
+        </Link>
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={data.navMain} />
-        <NavDocuments items={data.documents} />
-        <NavSecondary items={data.navSecondary} className="mt-auto" />
+        <NavMain
+          items={data.navMain.map((item) => ({
+            ...item,
+            title: t(dashboardKey(item.title.replaceAll(" ", ""))),
+          }))}
+        />
+        <NavDocuments
+          items={data.documents.map((item) => ({
+            ...item,
+            name: t(dashboardKey(item.name.replaceAll(" ", ""))),
+          }))}
+        />
+        <NavSecondary
+          items={data.navSecondary.map((item) => ({
+            ...item,
+            title: t(dashboardKey(item.title.replaceAll(" ", ""))),
+          }))}
+          className="mt-auto"
+        />
       </SidebarContent>
       <SidebarFooter>
         <NavUser />

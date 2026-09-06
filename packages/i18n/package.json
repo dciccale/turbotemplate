@@ -1,0 +1,38 @@
+{
+  "name": "@turbotemplate/i18n",
+  "version": "0.1.0",
+  "private": true,
+  "exports": {
+    ".": "./src/index.ts",
+    "./email": "./src/email.ts",
+    "./messages/*.json": "./src/messages/*.json",
+    "./browser": "./src/browser.ts",
+    "./clerk": "./src/clerk.ts",
+    "./messages": "./src/messages.ts"
+  },
+  "scripts": {
+    "test": "vitest run",
+    "check-i18n": "bun src/check.ts",
+    "check-types": "tsc --noEmit",
+    "check-template": "bun src/check-template.ts",
+    "lint": "biome check",
+    "format": "biome check --write"
+  },
+  "dependencies": {
+    "negotiator": "^1.1.0",
+    "intl-messageformat": "^11.2.14",
+    "@formatjs/icu-messageformat-parser": "^3.5.17",
+    "@clerk/localizations": "^4.16.0"
+  },
+  "devDependencies": {
+    "@types/negotiator": "^0.6.5",
+    "vitest": "^5.0.0",
+    "typescript": "^7.0.2",
+    "@types/node": "^26.4.1",
+    "@babel/parser": "^8.0.4",
+    "@biomejs/biome": "2.5.12"
+  },
+  "bin": {
+    "check-ui-copy": "./src/scan.ts"
+  }
+}

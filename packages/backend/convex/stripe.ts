@@ -1,5 +1,6 @@
 import { StripeSubscriptions } from "@convex-dev/stripe";
-import { v } from "convex/values";
+import type { Locale } from "@turbotemplate/i18n";
+import { ConvexError, v } from "convex/values";
 import StripeSDK from "stripe";
 import { components } from "./_generated/api";
 import {
@@ -8,6 +9,12 @@ import {
   type QueryCtx,
   query,
 } from "./_generated/server";
+import {
+  appReturnUrl,
+  checkoutLocale,
+  portalParameters,
+} from "./billingLocale";
+import { localeValidator } from "./validators";
 
 const stripeClient = new StripeSubscriptions(components.stripe, {});
 const STRIPE_PAGINATION_LIMIT = 100;
@@ -82,7 +89,7 @@ async function requireCurrentUser(
 ): Promise<CurrentUser> {
   const identity = await ctx.auth.getUserIdentity();
   if (!identity) {
-    throw new Error("Not authenticated");
+    throw new ConvexError({ code: "UNAUTHENTICATED" });
   }
 
   return {
@@ -149,7 +156,7 @@ function asActiveProduct(
   product: StripeSDK.Product | StripeSDK.DeletedProduct,
 ): StripeSDK.Product {
   if ("deleted" in product && product.deleted) {
-    throw new Error("Stripe product is deleted");
+    throw new ConvexError({ code: "PRODUCT_UNAVAILABLE" });
   }
   return product;
 }
@@ -342,10 +349,10 @@ async function getStripePriceAndProduct(
   });
 
   if (!price.active) {
-    throw new Error("Selected price is not active");
+    throw new ConvexError({ code: "PRICE_UNAVAILABLE" });
   }
   if (!isCheckoutEnabled(price.metadata)) {
-    throw new Error("Selected price is not available for checkout");
+    throw new ConvexError({ code: "PRICE_UNAVAILABLE" });
   }
 
   const product =
@@ -354,7 +361,7 @@ async function getStripePriceAndProduct(
       : asActiveProduct(price.product);
 
   if (!product.active || !isCheckoutEnabled(product.metadata)) {
-    throw new Error("Selected product is not available for checkout");
+    throw new ConvexError({ code: "PRODUCT_UNAVAILABLE" });
   }
 
   return {
@@ -371,6 +378,7 @@ async function createCheckoutForUser(
     priceId: string;
     successUrl: string;
     cancelUrl: string;
+    locale: Locale;
     expectedMode?: "payment" | "subscription";
   },
 ) {
@@ -378,7 +386,10 @@ async function createCheckoutForUser(
   const { mode } = await getStripePriceAndProduct(stripe, args.priceId);
 
   if (args.expectedMode && mode !== args.expectedMode) {
-    throw new Error(`Selected price is not a ${args.expectedMode} price`);
+    throw new ConvexError({
+      code: "INVALID_PRICE_MODE",
+      mode: args.expectedMode,
+    });
   }
 
   const customer = await stripeClient.getOrCreateCustomer(ctx, {
@@ -393,10 +404,11 @@ async function createCheckoutForUser(
 
   return await stripeClient.createCheckoutSession(ctx, {
     priceId: args.priceId,
+    params: checkoutLocale(args.locale),
     customerId: customer.customerId,
     mode,
-    successUrl: args.successUrl,
-    cancelUrl: args.cancelUrl,
+    successUrl: appReturnUrl(args.successUrl),
+    cancelUrl: appReturnUrl(args.cancelUrl),
     metadata,
     subscriptionMetadata: mode === "subscription" ? metadata : undefined,
     paymentIntentMetadata: mode === "payment" ? metadata : undefined,
@@ -559,7 +571,7 @@ export const getInvoiceDownloadLink = action({
       currentUser,
     );
     if (!billingContext.customerId) {
-      throw new Error("Invoice not found for this user");
+      throw new ConvexError({ code: "INVOICE_NOT_FOUND" });
     }
 
     const stripe = new StripeSDK(stripeClient.apiKey);
@@ -570,7 +582,7 @@ export const getInvoiceDownloadLink = action({
         : stripeInvoice.customer?.id;
 
     if (invoiceCustomerId !== billingContext.customerId) {
-      throw new Error("Invoice not found for this user");
+      throw new ConvexError({ code: "INVOICE_NOT_FOUND" });
     }
 
     return {
@@ -595,7 +607,7 @@ export const cancelSubscriptionForCurrentUser = action({
     const subscription = billingContext.subscription;
 
     if (!subscription || !isManagedSubscriptionStatus(subscription.status)) {
-      throw new Error("No active paid subscription found");
+      throw new ConvexError({ code: "SUBSCRIPTION_NOT_FOUND" });
     }
 
     await stripeClient.cancelSubscription(ctx, {
@@ -612,6 +624,7 @@ export const createCheckoutForCurrentUser = action({
     priceId: v.string(),
     successUrl: v.string(),
     cancelUrl: v.string(),
+    locale: localeValidator,
   },
   returns: v.object({
     sessionId: v.string(),
@@ -622,6 +635,7 @@ export const createCheckoutForCurrentUser = action({
 
     return await createCheckoutForUser(ctx, {
       currentUser,
+      locale: args.locale,
       priceId: args.priceId,
       successUrl: args.successUrl,
       cancelUrl: args.cancelUrl,
@@ -630,7 +644,7 @@ export const createCheckoutForCurrentUser = action({
 });
 
 export const createCustomerPortalSessionForCurrentUser = action({
-  args: { returnUrl: v.string() },
+  args: { returnUrl: v.string(), locale: localeValidator },
   returns: v.object({ url: v.string() }),
   handler: async (ctx, args) => {
     const currentUser = await requireCurrentUser(ctx);
@@ -640,15 +654,20 @@ export const createCustomerPortalSessionForCurrentUser = action({
       name: currentUser.name,
     });
 
-    return await stripeClient.createCustomerPortalSession(ctx, {
-      customerId: customer.customerId,
-      returnUrl: args.returnUrl,
-    });
+    const stripe = new StripeSDK(stripeClient.apiKey);
+    const session = await stripe.billingPortal.sessions.create(
+      portalParameters({
+        customerId: customer.customerId,
+        returnUrl: args.returnUrl,
+        locale: args.locale,
+      }),
+    );
+    return { url: session.url };
   },
 });
 
 export const createSubscriptionCheckout = action({
-  args: { priceId: v.string() },
+  args: { priceId: v.string(), locale: localeValidator },
   returns: v.object({
     sessionId: v.string(),
     url: v.union(v.string(), v.null()),
@@ -658,6 +677,7 @@ export const createSubscriptionCheckout = action({
 
     return await createCheckoutForUser(ctx, {
       currentUser,
+      locale: args.locale,
       priceId: args.priceId,
       successUrl: `${defaultAppDashboardUrl()}?checkout=success`,
       cancelUrl: `${defaultAppDashboardUrl()}?checkout=canceled`,
@@ -667,7 +687,7 @@ export const createSubscriptionCheckout = action({
 });
 
 export const createPaymentCheckout = action({
-  args: { priceId: v.string() },
+  args: { priceId: v.string(), locale: localeValidator },
   returns: v.object({
     sessionId: v.string(),
     url: v.union(v.string(), v.null()),
@@ -677,6 +697,7 @@ export const createPaymentCheckout = action({
 
     return await createCheckoutForUser(ctx, {
       currentUser,
+      locale: args.locale,
       priceId: args.priceId,
       successUrl: `${defaultAppDashboardUrl()}?checkout=success`,
       cancelUrl: `${defaultAppDashboardUrl()}?checkout=canceled`,

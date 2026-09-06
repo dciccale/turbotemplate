@@ -3,9 +3,17 @@
   "ui": "tui",
   "tasks": {
     "build": {
-      "dependsOn": ["^build"],
-      "inputs": ["$TURBO_DEFAULT$", ".env*"],
-      "outputs": [".next/**", "!.next/cache/**"],
+      "dependsOn": [
+        "^build"
+      ],
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        ".env*"
+      ],
+      "outputs": [
+        ".next/**",
+        "!.next/cache/**"
+      ],
       "env": [
         "APP_ORIGIN",
         "CLERK_SECRET_KEY",
@@ -16,10 +24,14 @@
       ]
     },
     "lint": {
-      "dependsOn": ["^lint"]
+      "dependsOn": [
+        "^lint"
+      ]
     },
     "format": {
-      "dependsOn": ["^format"]
+      "dependsOn": [
+        "^format"
+      ]
     },
     "dev": {
       "cache": false,
@@ -37,6 +49,27 @@
         "RESEND_WEBHOOK_SECRET",
         "RESEND_TEST_MODE"
       ]
+    },
+    "test": {
+      "dependsOn": [
+        "^test"
+      ]
+    },
+    "check-types": {
+      "dependsOn": [
+        "^check-types"
+      ]
+    },
+    "check-i18n": {
+      "dependsOn": [
+        "^check-i18n"
+      ]
+    },
+    "check-template": {
+      "cache": false
+    },
+    "@turbotemplate/backend#build": {
+      "outputs": []
     }
   }
 }
