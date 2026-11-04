@@ -136,6 +136,12 @@ export default async function Home() {
                   </span>{" "}
                   {"app :3001"}
                 </span>
+                <span className="whitespace-nowrap">
+                  <span className="text-emerald-600 dark:text-emerald-400">
+                    {"✓"}
+                  </span>{" "}
+                  {"backend (Convex)"}
+                </span>
                 <span className="ml-auto">{t("buildSomething")}</span>
               </div>
             </div>
