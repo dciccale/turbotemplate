@@ -143,4 +143,4 @@ bun run test
 bun run check-template
 ```
 
-Dependencies use the latest stable registry versions checked on 6 September 2026. Use Bun 1.4.0 and Node 24 LTS. Next.js 16.3.4 has a small tracked patch to preserve response `Vary` headers. See the translation guide before upgrading Next.js.
+Dependencies use the latest stable registry versions checked on 4 November 2026. Use Bun 1.4.0 and Node 24 LTS. Next.js 16.4.5 has a small tracked patch to preserve response `Vary` headers. See the translation guide before upgrading Next.js.

@@ -20,17 +20,17 @@
   },
   "dependencies": {
     "negotiator": "^1.1.0",
-    "intl-messageformat": "^11.2.14",
-    "@formatjs/icu-messageformat-parser": "^3.5.17",
-    "@clerk/localizations": "^4.16.0"
+    "intl-messageformat": "^12.1.4",
+    "@formatjs/icu-messageformat-parser": "^3.5.22",
+    "@clerk/localizations": "^4.24.5"
   },
   "devDependencies": {
     "@types/negotiator": "^0.6.5",
-    "vitest": "^5.0.0",
+    "vitest": "^5.1.0",
     "typescript": "^7.0.2",
-    "@types/node": "^26.4.1",
-    "@babel/parser": "^8.0.4",
-    "@biomejs/biome": "2.5.12"
+    "@types/node": "^26.6.6",
+    "@babel/parser": "^8.1.0",
+    "@biomejs/biome": "2.6.5"
   },
   "bin": {
     "check-ui-copy": "./src/scan.ts"

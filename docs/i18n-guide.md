@@ -56,6 +56,6 @@ Run `bun run check-template` to create a temporary renamed project and execute i
 
 Build and start both apps with the web `APP_ORIGIN` pointing to the app server. Run `I18N_TEST_ORIGIN=http://localhost:3000 bun run --filter web check-http`. This checks real response status, language, redirects, HTML language, and cache headers. Unit tests alone cannot detect response headers that the framework overwrites.
 
-Next.js 16.3.4 overwrites an existing `Vary` header in its app-page runtime template. The tracked patch in `patches/next@16.3.4.patch` preserves that header and appends the framework fields. Bun applies it during installation. Keep the patch until an upstream version passes the HTTP check without it. Run the HTTP check after each Next.js upgrade.
+Next.js 16.4.5 overwrites an existing `Vary` header in its app-page runtime template. The tracked patch in `patches/next@16.4.5.patch` preserves that header and appends the framework fields. Bun applies it during installation. Keep the patch until an upstream version passes the HTTP check without it. Run the HTTP check after each Next.js upgrade.
 
 The app's initial HTTP language describes its loading screen. After authentication, the locale provider waits for settings owned by the current user and applies the saved language. An account-mirror cookie cannot show another account's language while settings load.
