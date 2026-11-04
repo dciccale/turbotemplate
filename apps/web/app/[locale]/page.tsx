@@ -142,6 +142,12 @@ export default async function Home() {
                   </span>{" "}
                   {"backend (Convex)"}
                 </span>
+                <span className="whitespace-nowrap">
+                  <span className="text-emerald-600 dark:text-emerald-400">
+                    {"✓"}
+                  </span>{" "}
+                  {"email :3007"}
+                </span>
                 <span className="ml-auto">{t("buildSomething")}</span>
               </div>
             </div>
