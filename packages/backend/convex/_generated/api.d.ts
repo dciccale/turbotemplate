@@ -11,7 +11,7 @@
 import type * as billingLocale from "../billingLocale.js";
 import type * as emailsNode from "../emailsNode.js";
 import type * as http from "../http.js";
-import type * as resend from "../resend.js";
+import type * as plunk from "../plunk.js";
 import type * as settings from "../settings.js";
 import type * as stripe from "../stripe.js";
 import type * as validators from "../validators.js";
@@ -26,7 +26,7 @@ declare const fullApi: ApiFromModules<{
   billingLocale: typeof billingLocale;
   emailsNode: typeof emailsNode;
   http: typeof http;
-  resend: typeof resend;
+  plunk: typeof plunk;
   settings: typeof settings;
   stripe: typeof stripe;
   validators: typeof validators;
@@ -59,6 +59,6 @@ export declare const internal: FilterApi<
 >;
 
 export declare const components: {
-  resend: import("@convex-dev/resend/_generated/component.js").ComponentApi<"resend">;
+  plunk: import("@clipin/convex-plunk/_generated/component.js").ComponentApi<"plunk">;
   stripe: import("@convex-dev/stripe/_generated/component.js").ComponentApi<"stripe">;
 };

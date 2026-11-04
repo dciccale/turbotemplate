@@ -31,13 +31,14 @@
   "license": "ISC",
   "dependencies": {
     "@ai-sdk/openai": "^4.0.108",
-    "@convex-dev/resend": "^0.2.10",
+    "@clipin/convex-plunk": "0.0.1",
     "@convex-dev/stripe": "^0.1.7",
     "@turbotemplate/emails": "workspace:*",
     "@turbotemplate/i18n": "workspace:*",
     "@types/node": "^26.6.6",
     "ai": "^7.0.162",
     "convex": "^1.49.0",
+    "resend": "^6.37.0",
     "stripe": "^23.1.0",
     "zod": "^4.6.7"
   },

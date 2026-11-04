@@ -2,16 +2,14 @@ import { registerRoutes } from "@convex-dev/stripe";
 import { httpRouter } from "convex/server";
 import { components } from "./_generated/api";
 import { httpAction } from "./_generated/server";
-import { resend } from "./resend";
+import { plunk } from "./plunk";
 
 const http = httpRouter();
 
 http.route({
-  path: "/resend-webhook",
+  path: "/plunk-webhook",
   method: "POST",
-  handler: httpAction(async (ctx, request) => {
-    return resend.handleResendEventWebhook(ctx, request);
-  }),
+  handler: httpAction((ctx, request) => plunk.handleWebhook(ctx, request)),
 });
 
 // Register Stripe webhook handler at /stripe/webhook

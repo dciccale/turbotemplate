@@ -131,6 +131,18 @@ For local development set `APP_ORIGIN=http://localhost:3001` in `apps/web` when 
 
 Useful docs: tasks, caching, filters, and configuration at the Turborepo site.
 
+## Transactional email
+
+Set email variables in the Convex deployment. The [backend environment example](packages/backend/.env.example) lists the settings for each provider.
+
+Plunk is the default. Set `PLUNK_FROM_EMAIL` to a verified email address without a display name. Test mode records messages in Convex without sending them. To send live mail, set `PLUNK_API_KEY` and set `PLUNK_TEST_MODE=false`. For delivery events, set `PLUNK_WEBHOOK_SECRET` and configure Plunk workflows to post to `/plunk-webhook` with that secret as a bearer token.
+
+To use Resend, set `EMAIL_DELIVERY_PROVIDER=resend`, `RESEND_API_KEY`, and `RESEND_FROM_EMAIL`. Resend test mode accepts only Resend test recipients. Set `RESEND_TEST_MODE=false` to send to real recipients. Resend sends through its API and reports delivery status in its dashboard.
+
+Before upgrading a deployment that uses the old Resend component, drain its email queue. The new deployment uses `/plunk-webhook` in place of `/resend-webhook`. Remove the old Resend webhook after pending events have arrived.
+
+When a caller can retry the welcome email action, pass the same `idempotencyKey` for the same event. Resolve uncertain sends before switching providers for a retry.
+
 ## English and Spanish
 
 Both apps share typed catalogs in `packages/i18n`. Public Spanish pages use `/es`. Account pages keep `/app` paths and save the selected language in account settings.

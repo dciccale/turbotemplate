@@ -17,9 +17,13 @@
       "env": [
         "APP_ORIGIN",
         "CLERK_SECRET_KEY",
+        "EMAIL_DELIVERY_PROVIDER",
+        "PLUNK_API_KEY",
+        "PLUNK_FROM_EMAIL",
+        "PLUNK_TEST_MODE",
+        "PLUNK_WEBHOOK_SECRET",
         "RESEND_API_KEY",
         "RESEND_FROM_EMAIL",
-        "RESEND_WEBHOOK_SECRET",
         "RESEND_TEST_MODE"
       ]
     },
@@ -44,9 +48,13 @@
         "NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY",
         "NEXT_PUBLIC_CONVEX_URL",
         "NEXT_PUBLIC_MARKETING_URL",
+        "EMAIL_DELIVERY_PROVIDER",
+        "PLUNK_API_KEY",
+        "PLUNK_FROM_EMAIL",
+        "PLUNK_TEST_MODE",
+        "PLUNK_WEBHOOK_SECRET",
         "RESEND_API_KEY",
         "RESEND_FROM_EMAIL",
-        "RESEND_WEBHOOK_SECRET",
         "RESEND_TEST_MODE"
       ]
     },
