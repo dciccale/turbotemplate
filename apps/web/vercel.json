@@ -1,0 +1,23 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "routes": [
+    {
+      "src": "^/$",
+      "methods": ["GET", "HEAD"],
+      "missing": [
+        { "type": "header", "key": "next-action" },
+        { "type": "header", "key": "rsc" },
+        { "type": "header", "key": "next-router-prefetch" }
+      ],
+      "transforms": [
+        {
+          "type": "response.headers",
+          "op": "append",
+          "target": { "key": "Vary" },
+          "args": ["Accept-Language", "Cookie"]
+        }
+      ],
+      "continue": true
+    }
+  ]
+}
